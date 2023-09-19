@@ -49,6 +49,8 @@ MonoBehaviour:
   - SendSessionStart
   - CheckForLocalAnchors
   - OnColocatedAck
+  - HideModelRPC
+  - ShowModelRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

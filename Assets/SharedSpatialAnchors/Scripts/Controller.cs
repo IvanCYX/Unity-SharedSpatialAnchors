@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-    public float coordIncrement = 1f;
-    public float rotIncrement = 1f;
+    private float coordIncrement = 1f;
+    private float rotIncrement = 1f;
     
     public void DecreaseX() { DemoManager.MagnetScene.transform.position = new Vector3(DemoManager.MagnetScene.transform.position.x - coordIncrement, DemoManager.MagnetScene.transform.position.y, DemoManager.MagnetScene.transform.position.z); }
     public void DecreaseY() { DemoManager.MagnetScene.transform.position = new Vector3(DemoManager.MagnetScene.transform.position.x, DemoManager.MagnetScene.transform.position.y - coordIncrement, DemoManager.MagnetScene.transform.position.z); }
@@ -23,7 +23,9 @@ public class Controller : MonoBehaviour
 
     public void SpawnNewMagnet()
     {
-        GameObject Magnet = Instantiate(DemoManager.LargeMagnet, gameObject.transform.position, Quaternion.identity);
+        GameObject newMagnet = Instantiate(DemoManager.LargeMagnet, gameObject.transform.position, Quaternion.identity);
+        Magnet magnet = newMagnet.GetComponent<Magnet>();
+        Debug.Log("Spawned Magnet");
     }
 
     public void HideModel()
@@ -33,6 +35,19 @@ public class Controller : MonoBehaviour
     public void ShowModel()
     {
         DemoManager.ironFilling.SetActive(true);
+    }
+
+    void CheckInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            SpawnNewMagnet();
+        }
+    }
+
+    void Update()
+    {
+        CheckInput();
     }
 
 }

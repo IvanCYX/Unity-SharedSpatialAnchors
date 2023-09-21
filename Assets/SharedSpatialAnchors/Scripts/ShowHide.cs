@@ -6,7 +6,6 @@ using UnityEngine;
 public class sceneObjects : MonoBehaviour
 {
     private PhotonView pv;
-    // Start is called before the first frame update
     public GameObject model;
 
     private void Start()

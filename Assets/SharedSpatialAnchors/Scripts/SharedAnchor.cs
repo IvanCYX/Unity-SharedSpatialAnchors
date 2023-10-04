@@ -57,8 +57,6 @@ public class SharedAnchor : MonoBehaviour
 
     private OVRSpatialAnchor _spatialAnchor;
 
-    public GameObject prefab;
-
     public Transform spawnPoint;
 
     public bool IsSavedLocally
@@ -119,17 +117,6 @@ public class SharedAnchor : MonoBehaviour
             transform.Find("Canvas").gameObject.SetActive(false);
 
     }
-
-    public void SpawnPrefab()
-    {
-        //take in position of spatialAnchor prefab
-        //instantiate prefab exacatly on position of spatialAnchor prefab
-        //hide spatialAnchor prefab
-        
-        SampleController.Instance.Log("Spawned Prefab");
-        
-    }
-
 
     public void OnSaveLocalButtonPressed()
     {
@@ -211,7 +198,7 @@ public class SharedAnchor : MonoBehaviour
 
         IsSelectedForShare = true;
         SaveToCloudThenShare();
-        transform.Find("Canvas").gameObject.SetActive(false);
+        //transform.Find("Canvas").gameObject.SetActive(false);
     }
 
     private void SaveToCloudThenShare()

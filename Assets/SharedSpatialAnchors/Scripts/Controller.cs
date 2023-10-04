@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-    private float coordIncrement = 0.25f;
-    private float rotIncrement = 0.25f;
+    private float coordIncrement = 0.2f;
+    private float rotIncrement = 1f;
     
     public void DecreaseX() { DemoManager.MagnetScene.transform.position = new Vector3(DemoManager.MagnetScene.transform.position.x - coordIncrement, DemoManager.MagnetScene.transform.position.y, DemoManager.MagnetScene.transform.position.z); }
     public void DecreaseY() { DemoManager.MagnetScene.transform.position = new Vector3(DemoManager.MagnetScene.transform.position.x, DemoManager.MagnetScene.transform.position.y - coordIncrement, DemoManager.MagnetScene.transform.position.z); }

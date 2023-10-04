@@ -615,7 +615,7 @@ public class PhotonAnchorManager : PhotonPun.MonoBehaviourPunCallbacks
     //Two users are now confirmed to be on the same anchor
     public void SessionStart()
     {
-        photonView.RPC("SendSessionStart", PhotonPun.RpcTarget.Others);
+        photonView.RPC("SendSessionStart", PhotonPun.RpcTarget.AllBufferedViaServer);
         SendSessionStart();
     }
 

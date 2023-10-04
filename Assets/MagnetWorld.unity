@@ -912,6 +912,14 @@ PrefabInstance:
       propertyPath: _whenRelease.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1930608297}
+    - target: {fileID: 3079922436115302535, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
+      propertyPath: m_text
+      value: '-'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119368001140380895, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
+      propertyPath: m_text
+      value: Show Align
+      objectReference: {fileID: 0}
     - target: {fileID: 3827050945051211709, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
       propertyPath: _whenRelease.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -919,15 +927,51 @@ PrefabInstance:
     - target: {fileID: 3968758928292116757, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
       propertyPath: _whenRelease.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1930608297}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3968758928292116757, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
+      propertyPath: _whenRelease.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: HideModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3968758928292116757, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
+      propertyPath: _whenRelease.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: sceneObjects, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425878100846571421, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
+      propertyPath: m_Name
+      value: Hide Align
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425878100846571421, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4764350897837901144, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
       propertyPath: _whenRelease.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1930608297}
+    - target: {fileID: 4949317562632615002, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
+      propertyPath: m_Name
+      value: Show Align
+      objectReference: {fileID: 0}
+    - target: {fileID: 4949317562632615002, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4997781251127011330, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5681220015679906514, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
       propertyPath: _whenRelease.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1930608297}
+      objectReference: {fileID: 0}
+    - target: {fileID: 5681220015679906514, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
+      propertyPath: _whenRelease.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ShowModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5681220015679906514, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
+      propertyPath: _whenRelease.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: sceneObjects, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 5702562119303134858, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
       propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -940,9 +984,17 @@ PrefabInstance:
       propertyPath: _whenRelease.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1930608297}
+    - target: {fileID: 5948791235362885400, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
+      propertyPath: m_text
+      value: Hide Align
+      objectReference: {fileID: 0}
     - target: {fileID: 6155189701614545501, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
       propertyPath: m_Name
       value: Magnet Spawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379108848254402167, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7455573998751659916, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -999,13 +1051,16 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9184708170731076186, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 8385350787037900029, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 1335457264310501392, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 6312498419598671320, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 6239348479527429840, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 3410065860929879319, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e82f68f7bcf8a3d4dbef6214aad2d96f, type: 3}

@@ -120,6 +120,7 @@ public class AlignPlayer : MonoBehaviour
         {
             player.position = anchorTransform.InverseTransformPoint(Vector3.zero);
             player.eulerAngles = new Vector3(0, -anchorTransform.eulerAngles.y, 0);
+            //player.eulerAngles = new Vector3(-anchorTransform.eulerAngles.x, -anchorTransform.eulerAngles.y, -anchorTransform.eulerAngles.z);
         }
 
         if (playerHands)

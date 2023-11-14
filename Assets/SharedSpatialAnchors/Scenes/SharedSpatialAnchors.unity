@@ -1063,6 +1063,10 @@ PrefabInstance:
       propertyPath: rightHandAnchor
       value: 
       objectReference: {fileID: 7079690333416302228}
+    - target: {fileID: 1161621203827536575, guid: bac340b17ae71864ab3a424b042a3ce7, type: 3}
+      propertyPath: automaticCoLocation
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1161621204394269556, guid: bac340b17ae71864ab3a424b042a3ce7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

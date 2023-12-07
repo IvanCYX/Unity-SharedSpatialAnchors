@@ -93,13 +93,13 @@ public class PhotonAnchorManager : PhotonPun.MonoBehaviourPunCallbacks
         PackUuid(_fakeUuid, _fakePacket, ref offset);
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyUp("space"))
+        if(Input.GetKeyDown("space"))
         {
+            Debug.Log("Space was pressed");
             OnCreateRoomButtonPressed();
         }
-        
     }
 
     #endregion
@@ -318,7 +318,6 @@ public class PhotonAnchorManager : PhotonPun.MonoBehaviourPunCallbacks
         var roomOptions = new PhotonRealtime.RoomOptions { IsVisible = true, MaxPlayers = 16, EmptyRoomTtl = 0, PlayerTtl = 300000 };
 
         PhotonPun.PhotonNetwork.JoinOrCreateRoom(roomToCreate, roomOptions, PhotonRealtime.TypedLobby.Default);
-        //add function to add room to lobbyRowList
     }
 
     public void OnJoinRoomButtonPressed(TMPro.TextMeshProUGUI roomName)
@@ -615,7 +614,7 @@ public class PhotonAnchorManager : PhotonPun.MonoBehaviourPunCallbacks
     //Two users are now confirmed to be on the same anchor
     public void SessionStart()
     {
-        photonView.RPC("SendSessionStart", PhotonPun.RpcTarget.AllBufferedViaServer);
+        photonView.RPC("SendSessionStart", PhotonPun.RpcTarget.Others);
         SendSessionStart();
     }
 

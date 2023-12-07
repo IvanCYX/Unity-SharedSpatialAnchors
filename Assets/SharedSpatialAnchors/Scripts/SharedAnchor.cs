@@ -21,13 +21,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using PhotonPun = Photon.Pun;
-using PhotonRealtime = Photon.Realtime;
 
 /// <summary>
 /// Controls anchor data and anchor control panel behavior.
@@ -56,8 +53,6 @@ public class SharedAnchor : MonoBehaviour
     private Color greenColor;
 
     private OVRSpatialAnchor _spatialAnchor;
-
-    public Transform spawnPoint;
 
     public bool IsSavedLocally
     {
@@ -115,7 +110,6 @@ public class SharedAnchor : MonoBehaviour
 
         if (SampleController.Instance.automaticCoLocation)
             transform.Find("Canvas").gameObject.SetActive(false);
-
     }
 
     public void OnSaveLocalButtonPressed()
@@ -132,7 +126,7 @@ public class SharedAnchor : MonoBehaviour
             if (isSuccessful)
             {
                 IsSavedLocally = true;
-
+                SampleController.Instance.Log("Save Successful");
                 SampleController.Instance.GetComponent<SharedAnchorLoader>().AddLocallySavedAnchor(_spatialAnchor);
             }
         });
@@ -198,7 +192,6 @@ public class SharedAnchor : MonoBehaviour
 
         IsSelectedForShare = true;
         SaveToCloudThenShare();
-        //transform.Find("Canvas").gameObject.SetActive(false);
     }
 
     private void SaveToCloudThenShare()

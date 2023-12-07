@@ -42,7 +42,6 @@ public class SampleController : MonoBehaviour
     [SerializeField]
     private Transform rightHandAnchor;
 
-    //can change for other placement prefab
     [SerializeField]
     private GameObject placementPreview;
 
@@ -55,12 +54,10 @@ public class SampleController : MonoBehaviour
     [SerializeField]
     public TextMeshProUGUI pageText;
 
-    //Can change for other anchor prefab
     [SerializeField]
     public OVRSpatialAnchor anchorPrefab;
 
     public static SampleController Instance;
-
     private bool _isPlacementMode;
 
     private List<SharedAnchor> sharedanchorList = new List<SharedAnchor>();
@@ -94,11 +91,6 @@ public class SampleController : MonoBehaviour
         var shouldPlaceNewAnchor = _isPlacementMode && OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger) && rayInteractorHoveringUI;
 
         if (shouldPlaceNewAnchor)
-        {
-            PlaceAnchorAtRoot();
-        }
-
-        if (Input.GetKeyUp("r"))
         {
             PlaceAnchorAtRoot();
         }
@@ -167,7 +159,7 @@ public class SampleController : MonoBehaviour
         sharedanchorList.Add(anchor);
 
         //Testing created anchor position and rotation
-        foreach(SharedAnchor anchorInList in sharedanchorList)
+        foreach (SharedAnchor anchorInList in sharedanchorList)
         {
             Debug.Log(anchorInList.transform.position);
             Debug.Log(anchorInList.transform.rotation);
@@ -176,6 +168,6 @@ public class SampleController : MonoBehaviour
 
     public List<SharedAnchor> GetLocalPlayerSharedAnchors()
     {
-        return sharedanchorList; 
+        return sharedanchorList;
     }
 }

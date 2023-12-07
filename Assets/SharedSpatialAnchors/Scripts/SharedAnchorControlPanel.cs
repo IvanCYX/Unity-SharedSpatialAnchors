@@ -25,6 +25,7 @@ using UnityEngine.UI;
 using TMPro;
 using PhotonPun = Photon.Pun;
 using PhotonRealtime = Photon.Realtime;
+using System.Diagnostics;
 
 public class SharedAnchorControlPanel : MonoBehaviour
 {
@@ -32,7 +33,10 @@ public class SharedAnchorControlPanel : MonoBehaviour
     private Transform referencePoint;
 
     [SerializeField]
-    private GameObject cubePrefab;
+    private GameObject earthPrefab;
+
+    [SerializeField]
+    private GameObject magnetPrefab;
 
     [SerializeField]
     private GameObject roomLayoutPanelRowPrefab;
@@ -71,6 +75,10 @@ public class SharedAnchorControlPanel : MonoBehaviour
     private TextMeshProUGUI roomText;
 
     List<GameObject> lobbyRowList = new List<GameObject>();
+
+    private List<GameObject> spawnedEarths = new List<GameObject>();
+
+    private List<GameObject> spawnedMagnets = new List<GameObject>();
 
     public TextMeshProUGUI RoomText
     {
@@ -136,11 +144,16 @@ public class SharedAnchorControlPanel : MonoBehaviour
         }
     }
 
-    public void OnSpawnCubeButtonPressed()
+    public void OnSpawnEarthButtonPressed()
     {
         SampleController.Instance.Log("OnSpawnCubeButtonPressed");
+        SpawnEarth();
+    }
 
-        SpawnCube();
+    public void OnSpawnMagnetButtonPressed()
+    {
+        SampleController.Instance.Log("OnSpawnCubeButtonPressed");
+        SpawnMagnet();
     }
 
     public void LogNext()
@@ -165,13 +178,52 @@ public class SharedAnchorControlPanel : MonoBehaviour
         pageText.text = SampleController.Instance.logText.pageToDisplay + "/" + SampleController.Instance.logText.textInfo.pageCount;
     }
 
-    private void SpawnCube()
+    private void DeleteEarth()
     {
-        var networkedCube = PhotonPun.PhotonNetwork.Instantiate(cubePrefab.name, spawnPoint.position, spawnPoint.rotation);
-        Debug.Log(networkedCube.transform.position);
-        Debug.Log(networkedCube.transform.rotation);
-        var photonGrabbable = networkedCube.GetComponent<PhotonGrabbableObject>();
+        if (spawnedEarths.Count > 0)
+        {
+            foreach (var prefab in spawnedEarths)
+            {
+                PhotonPun.PhotonNetwork.Destroy(prefab);
+            }
+            spawnedEarths.Clear();
+        }
+    }
+
+    private void SpawnEarth()
+    {
+        DeleteMagnet();
+        DeleteEarth();
+
+        var networkedEarth = PhotonPun.PhotonNetwork.Instantiate(earthPrefab.name, spawnPoint.position, spawnPoint.rotation);
+        var photonGrabbable = networkedEarth.GetComponent<PhotonGrabbableObject>();
         photonGrabbable.TransferOwnershipToLocalPlayer();
+
+        spawnedEarths.Add(networkedEarth);
+    }
+
+    private void DeleteMagnet()
+    {
+        if (spawnedMagnets.Count > 0)
+        {
+            foreach (var prefab in spawnedMagnets)
+            {
+                PhotonPun.PhotonNetwork.Destroy(prefab);
+            }
+            spawnedMagnets.Clear();
+        }
+    }
+
+    private void SpawnMagnet()
+    {
+        DeleteEarth();
+        DeleteMagnet();
+
+        var networkedMagnet = PhotonPun.PhotonNetwork.Instantiate(magnetPrefab.name, spawnPoint.position, spawnPoint.rotation);
+        var photonGrabbable = networkedMagnet.GetComponent<PhotonGrabbableObject>();
+        photonGrabbable.TransferOwnershipToLocalPlayer();
+
+        spawnedMagnets.Add(networkedMagnet);
     }
 
     public void ChangeUserPassthroughVisualization()

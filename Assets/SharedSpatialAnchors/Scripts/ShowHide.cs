@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class sceneObjects : MonoBehaviour
 {
-    private PhotonView pv;
+    //private PhotonView pv;
     public GameObject model;
 
     private void Start()
     {
-        model.SetActive(true);
+        model.SetActive(false);
     }
-    [PunRPC]
+/*    [PunRPC]
     public void HideModelRPC()
     {
         model.SetActive(false);
@@ -33,5 +33,15 @@ public class sceneObjects : MonoBehaviour
     public void ShowModel()
     {
         pv.RPC("ShowModelRPC", RpcTarget.AllBufferedViaServer);
+    }*/
+
+    public void ShowModel()
+    {
+        model.SetActive(true);
+    }
+
+    public void HideModel()
+    {
+        model.SetActive(false);
     }
 }

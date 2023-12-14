@@ -1,3 +1,4 @@
+using System.Collections.Specialized;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -27,18 +28,19 @@ public class VectorField : MonoBehaviour
         int aliveParticleCount = vectorFieldParticleSystem.GetParticles(particles);
 
         Vector3 electricField;
-        //Vector3 force;
-
 
         for (int i = 0; i < aliveParticleCount; i++)
         {
             if (checkIfOutsideBoundry(particles[i].position)) { particles[i].remainingLifetime = 0; }
             electricField = getElectricFieldFromTwoPointCharges(particles[i].position);
+            //F = qE
             //force = electricField * chargeOnTestCharge * 0.1f;
             //particles[i].velocity += force / massOfTestCharge;
             particles[i].startColor = Remap(0, 5, color1, color2, electricField.magnitude);
+            //add Loretnz force to velocity of particles
             particles[i].velocity = electricField;
-            if (electricField.magnitude >= 100) { particles[i].remainingLifetime = 0; }
+            //increase to show deflection at higher speeds
+            if (electricField.magnitude >= 2000) { particles[i].remainingLifetime = 0; }
         }
 
         vectorFieldParticleSystem.SetParticles(particles, aliveParticleCount);
@@ -70,6 +72,16 @@ public class VectorField : MonoBehaviour
         Vector3 positiveChargePostion = positiveCharge.gameObject.transform.localPosition;
         Vector3 negativeChargePostion = negativeCharge.gameObject.transform.localPosition;
         return getElectricFieldFromPointCharge(radialVector, positiveChargePostion, chargeOnPointCharge) + getElectricFieldFromPointCharge(radialVector, negativeChargePostion, -chargeOnPointCharge);
+    }
+
+    //TODO
+    //Calculate Lorentz force on particle F = qE + qv x B
+    Vector3 LorentzForce(Vector3 radialVector)
+    {
+        //calculate radial vector * charOfParticle*electricField from point charge
+        //+ charge*Vector3 cross magneticVector with particle velocity
+        Vector3 magneticForce = Vector3.zero;
+        return magneticForce;
     }
 
     bool checkIfOutsideBoundry(Vector3 radialVector)

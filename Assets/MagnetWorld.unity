@@ -180,15 +180,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8435806648676800292, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.2862
       objectReference: {fileID: 0}
     - target: {fileID: 8435806648676800292, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.2841
       objectReference: {fileID: 0}
     - target: {fileID: 8435806648676800292, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -4.4607
       objectReference: {fileID: 0}
     - target: {fileID: 8435806648676800292, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1159,7 +1159,7 @@ GameObject:
   - component: {fileID: 2060745115}
   - component: {fileID: 2060745114}
   - component: {fileID: 2060745113}
-  - component: {fileID: 2060745112}
+  - component: {fileID: 2060745116}
   m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
@@ -1167,25 +1167,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2060745112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2060745111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2739eb0f312cd9e4baae723e60d9307b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  positiveCharge: {fileID: 415548057}
-  negativeCharge: {fileID: 1776573297}
-  color1: {r: 1, g: 0, b: 0, a: 1}
-  color2: {r: 0, g: 0, b: 1, a: 1}
-  chargeOnPointCharge: 10
-  chargeOnTestCharge: 1
-  massOfTestCharge: 10
 --- !u!199 &2060745113
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -2098,7 +2079,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 4
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -6001,6 +5982,28 @@ Transform:
   - {fileID: 1776573301}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+--- !u!114 &2060745116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060745111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 420880a4d9fcaae4f90fc0aaa918fb59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vectorFieldParticleSystem: {fileID: 2060745114}
+  charge: 1
+  electricField: 1
+  magneticField: 1
+  xM: 1
+  yM: 2
+  zM: 1
+  xE: 1
+  yE: 1
+  zE: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -1,0 +1,38 @@
+#pragma kernel CSMain
+
+#define _MagneticFieldStrength 1.0 // magnetic field strength here
+uniform float _DeltaTime;
+
+// Particle structure containing position, velocity, and charge
+struct Particle
+{
+    float3 position;
+    float3 velocity;
+    float charge;
+};
+
+RWStructuredBuffer<Particle> particlesBuffer;
+
+float3 CalculateMagneticField(float3 position)
+{
+    // Simple magnetic field along the y-axis
+    float3 magneticField = float3(0, _MagneticFieldStrength, 0);
+
+    return magneticField;
+}
+
+[numthreads(32, 1, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    Particle particle = particlesBuffer[id.x];
+
+    // Calculate the magnetic field at the particle's position
+    float3 magneticField = CalculateMagneticField(particle.position);
+
+    // Apply the Lorentz force (F = q * v x B) to update the velocity
+    float3 lorentzForce = particle.charge * cross(particle.velocity, magneticField);
+    particle.velocity += lorentzForce * _DeltaTime;
+
+    // Update the particle in the buffer
+    particlesBuffer[id.x] = particle;
+}

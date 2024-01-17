@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class VectorField : MonoBehaviour
+public class IonGenerator : MonoBehaviour
 {
     ParticleSystem vectorFieldParticleSystem;
     ParticleSystem.Particle[] particles;
@@ -47,8 +47,9 @@ public class VectorField : MonoBehaviour
 
             particles[i].startColor = Remap(0, 5, color1, color2, electricField.magnitude);
 
-            //Calculate Lorentz force on particle F = qv x B
-            particles[i].velocity = electricField;
+            //Calculate Lorentz force on particle F = qv x B, F = qE + qv x B, F = q(E + v x B)
+            particles[i].velocity = (chargeOnTestCharge * electricField) + (Vector3.Cross((chargeOnPointCharge * particles[i].velocity), magneticField));
+            
 
             //increase to show deflection at higher speeds
             if (electricField.magnitude >= 200) { particles[i].remainingLifetime = 0; }

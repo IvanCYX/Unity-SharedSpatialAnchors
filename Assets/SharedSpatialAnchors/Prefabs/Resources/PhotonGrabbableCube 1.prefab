@@ -764,7 +764,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8733194632187581514, guid: 81edf85f587cbff43a90926e7e71b5a9, type: 3}
       propertyPath: fieldSourceCount
-      value: 30
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 8733194632187581514, guid: 81edf85f587cbff43a90926e7e71b5a9, type: 3}
       propertyPath: magnets.Array.size

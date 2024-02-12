@@ -6,13 +6,15 @@ public class SolarWindController : MonoBehaviour {
     ParticleSystem.EmissionModule emmission;
     ParticleSystem.Particle[] particles;
 
-    [Range(0,100)]
-    public float velocityMax;
+    [Range(0,1000)]
+    public float lerpMax;
 
-    public float charge;
+    public float particleCharge;
+    public float particleMass;
     public float earthMagneticFieldMagnitude;
     public float earthRadius;
-    public Vector4 earthDipole;
+    public Vector4 earthDipole = new Vector4(0, Mathf.Cos(0.204203522f), Mathf.Sin(0.204203522f));
+    public float distanceScale;
 
     public ComputeShader computeShader;
     private ComputeBuffer velocityBuffer;
@@ -43,6 +45,7 @@ public class SolarWindController : MonoBehaviour {
             positionArray[i] = particles[i].position;
             velocityArray[i] = particles[i].velocity;
         }
+
         positionBuffer.SetData(positionArray);
         velocityBuffer.SetData(velocityArray);
 
@@ -51,21 +54,28 @@ public class SolarWindController : MonoBehaviour {
         computeShader.SetBuffer(kernelID, "_Velocity", velocityBuffer);
         computeShader.SetInt("_ParticleCount", aliveParticleCount);
 
-        computeShader.SetFloat("_charge", charge);
+        computeShader.SetFloat("_particleCharge", particleCharge);
+        computeShader.SetFloat("_particleMass", particleMass);
         computeShader.SetFloat("_earthMagneticFieldMagnitude", earthMagneticFieldMagnitude);
         computeShader.SetFloat("_earthRadius", earthRadius);
         computeShader.SetVector("_earthDipole", earthDipole);
 
+        computeShader.SetFloat("_initialSpeed", vectorFieldParticleSystem.main.startSpeed.constant);
+        computeShader.SetFloat("_dt", Time.deltaTime);
+        computeShader.SetFloat("_distanceScale", distanceScale);
+
         computeShader.Dispatch(kernelID, (int)Mathf.Ceil(aliveParticleCount/(float)threadCount), 1, 1);
 
+        positionBuffer.GetData(positionArray);
         velocityBuffer.GetData(velocityArray);
   
         for(int i = 0; i < aliveParticleCount; i++) {
+            particles[i].position = positionArray[i];
             particles[i].velocity = velocityArray[i];
-            particles[i].startColor = Remap(0, velocityMax, Color.blue, Color.red, velocityArray[i].magnitude);
 
-            if(particles[i].velocity.magnitude > 100) {particles[i].remainingLifetime = 0;}
-            //particles[i].startSize = Remap(0,velocityMax, 1f, 3f, velocityArray[i].magnitude);
+            if(particles[i].position.magnitude < earthRadius) {particles[i].startLifetime = 0;}
+
+            particles[i].startColor = Remap(0, lerpMax, Color.blue, Color.red,  lerpMax - particles[i].position.magnitude);
         }
 
         vectorFieldParticleSystem.SetParticles(particles, aliveParticleCount); 

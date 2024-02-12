@@ -12,7 +12,7 @@ public class sceneObjects : MonoBehaviour
     {
         model.SetActive(false);
     }
-/*    [PunRPC]
+ /*   [PunRPC]
     public void HideModelRPC()
     {
         model.SetActive(false);

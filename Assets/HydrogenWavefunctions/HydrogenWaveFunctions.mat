@@ -39,7 +39,7 @@ Material:
     - _TransferScale3: 0.473
     - _UseSquaredTransfer: 1
     - _a0: 0.03
-    - _l: 2
+    - _l: 1
     - _m: 0
     - _n: 3
     m_Colors:

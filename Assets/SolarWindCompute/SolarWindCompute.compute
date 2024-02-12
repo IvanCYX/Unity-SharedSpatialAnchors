@@ -5,16 +5,16 @@ static const int threadCount = 1024;
 
 uint _ParticleCount;
 
-float _a;
-float _b;
-float _c;
-
-float _charge;
+float _particleCharge;
+float _particleMass;
 float _earthMagneticFieldMagnitude;
 float _earthRadius;
 float3 _earthDipole;
 
-StructuredBuffer<float3> _Position;
+float _dt;
+float _initialSpeed;
+
+RWStructuredBuffer<float3> _Position;
 RWStructuredBuffer<float3> _Velocity;
 
 float InverseLerp(float a, float b, float v) {return (v-a)/(b-a);}
@@ -27,49 +27,27 @@ float getX(float r, float theta, float phi) {return r * sin(theta) * cos(phi);}
 float getY(float r, float theta, float phi) {return r * sin(theta) * sin(phi);}
 float getZ(float r, float theta, float phi) {return r * cos(theta);}
 
-/*
 float3 calculateEarthMagneticField(float3 position) {
     float r = getR(position);
-    float theta = getTheta(position);
-    float phi = getPhi(position);
+    float3 rUnit = normalize(position);
 
-    if(r < _earthRadius) {return float3(10000,10000,10000);}
-
-    float radialField = -2 * _earthMagneticFieldMagnitude * pow(_earthRadius / r, 3) * cos(theta);
-    float latitudinalField = -_earthMagneticFieldMagnitude * pow(_earthRadius / r, 3) * sin(theta);
-
-    return radialField * normalize(position) + latitudinalField * float3(cos(phi),0,sin(phi));
-} */
-
-float3 calculateEarthMagneticField(float3 position) {
-    float r = getR(position);
-    float theta = getTheta(position);
-    float phi = getPhi(position);
-
-    float3 earthDipole = float3(0, 2,0);
-
-    return (pow(_earthRadius / r, 3)) * (3 * dot(_earthDipole, normalize(position)) * normalize(position) - _earthDipole);
+    return _earthMagneticFieldMagnitude / pow(r, 3) * (3 * dot(_earthDipole, rUnit) * rUnit - _earthDipole);
 } 
 
-float3 calculateVelocityFromMagenticField(float charge, float3 velocity, float3 magneticField) {
-    return charge * cross(velocity, magneticField);
-}
+/*float3 constantField(float3 position) {
+    return float3(0,_earthMagneticFieldMagnitude,0);
+} */
 
-float3 lorenzAttractor(float3 radialVector) {
-    float3 field;
 
-    field.x = _a * (radialVector.y - radialVector.x);
-    field.y = radialVector.x * (_b - radialVector.z) - radialVector.y;
-    field.z = radialVector.x * radialVector.y - _c * radialVector.z;
-
-    return field;
+float3 calculateVelocityFromMagenticField(float3 velocity, float3 magneticField) {
+    return _particleCharge * cross(velocity, magneticField) / _particleMass;
 }
 
 [numthreads(threadCount,1,1)]
 void CSMain(uint3 id : SV_DispatchThreadID) { 
     if(id.x < _ParticleCount) {
-        //_Field[id.x] = lorenzAttractor(_Position[id.x]);
-        _Velocity[id.x] += calculateVelocityFromMagenticField(_charge, _Velocity[id.x], calculateEarthMagneticField(_Position[id.x]));
-        //_Velocity[id.x] = calculateEarthMagneticField(_Position[id.x]);
+        _Velocity[id.x] += calculateVelocityFromMagenticField(_Velocity[id.x], calculateEarthMagneticField(_Position[id.x])) * _dt;
+        _Velocity[id.x] = _initialSpeed * normalize(_Velocity[id.x]);
+        _Position[id.x] += _Velocity[id.x] * _dt;
     }
 }

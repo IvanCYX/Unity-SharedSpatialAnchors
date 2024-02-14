@@ -14,7 +14,6 @@ public class SolarWindController : MonoBehaviour {
     public float earthMagneticFieldMagnitude;
     public float earthRadius;
     public Vector4 earthDipole = new Vector4(0, Mathf.Cos(0.204203522f), Mathf.Sin(0.204203522f));
-    public float distanceScale;
 
     public ComputeShader computeShader;
     private ComputeBuffer velocityBuffer;
@@ -31,7 +30,7 @@ public class SolarWindController : MonoBehaviour {
         InitializeParticleSystem();
         int aliveParticleCount = vectorFieldParticleSystem.GetParticles(particles);
 
-        if(aliveParticleCount == 0) {return;}
+        if(aliveParticleCount == 0 || vectorFieldParticleSystem.isPaused) {return;}
 
         //Allocate position and field buffers
         positionBuffer = new ComputeBuffer(aliveParticleCount, sizeof(float) * 3);
@@ -42,7 +41,7 @@ public class SolarWindController : MonoBehaviour {
 
         //Read-in position data to position buffer
         for(int i = 0; i < aliveParticleCount; i++) {
-            positionArray[i] = particles[i].position;
+            positionArray[i] = particles[i].position - particles[i].velocity * Time.deltaTime;
             velocityArray[i] = particles[i].velocity;
         }
 
@@ -62,7 +61,6 @@ public class SolarWindController : MonoBehaviour {
 
         computeShader.SetFloat("_initialSpeed", vectorFieldParticleSystem.main.startSpeed.constant);
         computeShader.SetFloat("_dt", Time.deltaTime);
-        computeShader.SetFloat("_distanceScale", distanceScale);
 
         computeShader.Dispatch(kernelID, (int)Mathf.Ceil(aliveParticleCount/(float)threadCount), 1, 1);
 

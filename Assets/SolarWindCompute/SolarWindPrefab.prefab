@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.003, y: 1.066, z: -0.9}
-  m_LocalScale: {x: 0.005, y: 0.005, z: 0.005}
+  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -117,7 +117,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 30
+      scalar: 40
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -288,7 +288,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -665,14 +665,14 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 8
-    angle: 0
-    length: 100
+    type: 4
+    angle: 50
+    length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 1
-    m_Position: {x: -231.43866, y: 0, z: 0}
-    m_Rotation: {x: -0, y: 90, z: 90}
+    m_Position: {x: 200, y: 0, z: 0}
+    m_Rotation: {x: 0, y: -90, z: 90}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -4843,11 +4843,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 875267e03cfef7e4990fd49cabfa12b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpMax: 359
+  lerpMax: 253
   particleCharge: 1.602e-10
   particleMass: 1.67e-18
   earthMagneticFieldMagnitude: 0.1
   earthRadius: 0.5
   earthDipole: {x: 0, y: 0.97922283, z: 0.2027873, w: 0}
-  distanceScale: 1
   computeShader: {fileID: 7200000, guid: 3ee24bfbff6a34543bfd093da99412e5, type: 3}

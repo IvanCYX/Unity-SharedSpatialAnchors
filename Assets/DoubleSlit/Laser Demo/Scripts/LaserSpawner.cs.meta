@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 339a7bd1a77dce940b58082872191d25
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - leftHand: {instanceID: 0}
+  - rightHand: {instanceID: 0}
+  - laserSegmentPrefab: {fileID: 287963577720203370, guid: eeec8479666082949a35d1cebe5ad950, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

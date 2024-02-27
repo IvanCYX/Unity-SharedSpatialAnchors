@@ -502,7 +502,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5197713538940695549, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
       propertyPath: ShapeModule.angle
-      value: 40
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5197713538940695549, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
       propertyPath: InitialModule.size3D

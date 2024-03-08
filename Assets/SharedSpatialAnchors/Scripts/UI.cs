@@ -6,11 +6,15 @@ using UnityEngine;
 
 public class UI : MonoBehaviour
 {
-    public GameObject model;
+    public GameObject mag;
     public GameObject earth;
+    public GameObject renderer;
+    public GameObject solarWind;
+    public GameObject rand;
     public Behaviour handGrabComponent1;
     public Behaviour handGrabComponent2;
     public Rigidbody rb;
+    private PhotonView pv;
 
     private void Start()
     {
@@ -37,15 +41,53 @@ public class UI : MonoBehaviour
         SampleController.Instance.Log("Hand Grab Disabled");
     }
 
-    public void ShowModel()
+    [PunRPC]
+    public void ShowAlignRPC()
     {
-        model.SetActive(true);
+        mag.SetActive(true);
         earth.SetActive(false);
+        renderer.SetActive(true);
+        solarWind.SetActive(false);
     }
 
-    public void HideModel()
+    public void ShowAlign()
     {
-        model.SetActive(false);
+        pv.RPC("ShowAlignRPC", RpcTarget.AllBufferedViaServer);
+    }
+
+    [PunRPC]
+    public void HideAlignRPC()
+    {
+        mag.SetActive(true);
         earth.SetActive(true);
+        renderer.SetActive(true);
+        solarWind.SetActive(true);
+    }
+
+    public void HideAlign()
+    {
+        pv.RPC("HideModelRPC", RpcTarget.AllBufferedViaServer);
+    }
+
+    [PunRPC]
+    public void ShowRandRPC()
+    {
+        rand.SetActive(true);
+    }
+
+    public void ShowRand()
+    {
+        pv.RPC("ShowRandRPC", RpcTarget.AllBufferedViaServer);
+    }
+
+    [PunRPC]
+    public void HideRandRPC()
+    {
+        rand.SetActive(false);
+    }
+
+    public void HideRand()
+    {
+        pv.RPC("HideRandRPC", RpcTarget.AllBufferedViaServer);
     }
 }

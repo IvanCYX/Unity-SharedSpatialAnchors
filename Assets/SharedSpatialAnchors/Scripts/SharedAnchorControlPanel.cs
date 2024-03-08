@@ -80,6 +80,8 @@ public class SharedAnchorControlPanel : MonoBehaviour
 
     private List<GameObject> spawnedMagnets = new List<GameObject>();
 
+    private PhotonPun.PhotonView pv;
+
     public TextMeshProUGUI RoomText
     {
         get { return roomText; }
@@ -146,13 +148,13 @@ public class SharedAnchorControlPanel : MonoBehaviour
 
     public void OnSpawnEarthButtonPressed()
     {
-        SampleController.Instance.Log("OnSpawnCubeButtonPressed");
+        SampleController.Instance.Log("OnSpawnEarthButtonPressed");
         SpawnEarth();
     }
 
     public void OnSpawnMagnetButtonPressed()
     {
-        SampleController.Instance.Log("OnSpawnCubeButtonPressed");
+        SampleController.Instance.Log("OnSpawnMagnetButtonPressed");
         SpawnMagnet();
     }
 
@@ -188,6 +190,44 @@ public class SharedAnchorControlPanel : MonoBehaviour
             }
             spawnedEarths.Clear();
         }
+        SampleController.Instance.Log("Earth Deleted");
+    }
+
+    [PhotonPun.PunRPC]
+    public void ShowAlignmentRPC()
+    {
+        if (spawnedEarths.Count > 0)
+        {
+            foreach (var prefab in spawnedEarths)
+            {
+                prefab.transform.GetChild(5).gameObject.SetActive(false);
+            }
+            SampleController.Instance.Log("ShowAlignmentButtonPressed");
+        }
+    }
+
+    public void ShowAlignment()
+    {
+        pv.RPC("ShowAlignmentRPC", PhotonPun.RpcTarget.AllBufferedViaServer);
+    }
+
+    [PhotonPun.PunRPC]
+    public void HideAlignmentRPC()
+    {
+        if (spawnedEarths.Count > 0)
+        {
+            SampleController.Instance.Log("Hiding");
+            foreach (var prefab in spawnedEarths)
+            {
+                prefab.transform.GetChild(5).gameObject.SetActive(true);
+            }
+            SampleController.Instance.Log("HideAlignmentButtonPressed");
+        }
+    }
+
+    public void HideAlignment()
+    {
+        pv.RPC("HideAlignmentRPC", PhotonPun.RpcTarget.AllBufferedViaServer);
     }
 
     private void SpawnEarth()
@@ -198,7 +238,7 @@ public class SharedAnchorControlPanel : MonoBehaviour
         var networkedEarth = PhotonPun.PhotonNetwork.Instantiate(earthPrefab.name, spawnPoint.position, spawnPoint.rotation);
         var photonGrabbable = networkedEarth.GetComponent<PhotonGrabbableObject>();
         photonGrabbable.TransferOwnershipToLocalPlayer();
-
+        
         spawnedEarths.Add(networkedEarth);
     }
 
@@ -208,10 +248,13 @@ public class SharedAnchorControlPanel : MonoBehaviour
         {
             foreach (var prefab in spawnedMagnets)
             {
+                SampleController.Instance.Log("1");
                 PhotonPun.PhotonNetwork.Destroy(prefab);
+                SampleController.Instance.Log("2");
             }
             spawnedMagnets.Clear();
         }
+        SampleController.Instance.Log("Magnets Deleted");
     }
 
     private void SpawnMagnet()
@@ -222,8 +265,16 @@ public class SharedAnchorControlPanel : MonoBehaviour
         var networkedMagnet = PhotonPun.PhotonNetwork.Instantiate(magnetPrefab.name, spawnPoint.position, spawnPoint.rotation);
         var photonGrabbable = networkedMagnet.GetComponent<PhotonGrabbableObject>();
         photonGrabbable.TransferOwnershipToLocalPlayer();
-
+        
         spawnedMagnets.Add(networkedMagnet);
+    }
+
+    public void CheckList()
+    {
+        foreach(var prefab in spawnedMagnets)
+        {
+            SampleController.Instance.Log(prefab.ToString());
+        }
     }
 
     public void ChangeUserPassthroughVisualization()

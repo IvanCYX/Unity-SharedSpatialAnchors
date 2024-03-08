@@ -7117,7 +7117,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4136631927299453423}
-  - component: {fileID: 1611260371592693285}
   m_Layer: 0
   m_Name: MagnetScene
   m_TagString: Untagged
@@ -7145,18 +7144,6 @@ Transform:
   - {fileID: 2538240457022251223}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1611260371592693285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4042759067313373625}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3df36eb9d6e68004d98a6efaa28c3ac9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4095402518081984590
 GameObject:
   m_ObjectHideFlags: 0
@@ -56515,7 +56502,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11300f7c15728ea4f99684c03ad37a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model: {fileID: 6642680052765706348}
+  mag: {fileID: 0}
+  earth: {fileID: 0}
+  renderer: {fileID: 0}
+  solarWind: {fileID: 0}
+  rand: {fileID: 0}
+  handGrabComponent1: {fileID: 0}
+  handGrabComponent2: {fileID: 0}
+  rb: {fileID: 0}
 --- !u!1 &6642680052766403128
 GameObject:
   m_ObjectHideFlags: 0

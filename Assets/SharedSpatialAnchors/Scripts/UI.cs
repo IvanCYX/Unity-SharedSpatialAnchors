@@ -1,93 +1,75 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Collections.Specialized;
 using Photon.Pun;
 using UnityEngine;
 
 public class UI : MonoBehaviour
 {
-    public GameObject mag;
     public GameObject earth;
-    public GameObject renderer;
-    public GameObject solarWind;
-    public GameObject rand;
-    public Behaviour handGrabComponent1;
-    public Behaviour handGrabComponent2;
-    public Rigidbody rb;
-    private PhotonView pv;
+
+    [SerializeField]
+    private FieldLineRenderer fieldLineRenderer;
+
+    [SerializeField]
+    private GameObject magnetPrefab;
+
+    private List<GameObject> spawnedMagnets = new List<GameObject>();
+
 
     private void Start()
     {
-        enableHandGrab();
-    }
-
-    public void enableHandGrab()
-    {
-        gameObject.GetComponent<Oculus.Interaction.OneGrabFreeTransformer>().enabled = true;
-        gameObject.GetComponent<Oculus.Interaction.Grabbable>().enabled = true;
-        rb.isKinematic = true;
-        handGrabComponent1.enabled = true;
-        handGrabComponent2.enabled = true;
-        SampleController.Instance.Log("Hand Grab Enabled");
-    }
-
-    public void disableHandGrab()
-    {
-        gameObject.GetComponent<Oculus.Interaction.OneGrabFreeTransformer>().enabled = false;
-        gameObject.GetComponent<Oculus.Interaction.Grabbable>().enabled = false;
-        rb.isKinematic = false;
-        handGrabComponent1.enabled = false;
-        handGrabComponent2.enabled = false;
-        SampleController.Instance.Log("Hand Grab Disabled");
-    }
-
-    [PunRPC]
-    public void ShowAlignRPC()
-    {
-        mag.SetActive(true);
         earth.SetActive(false);
-        renderer.SetActive(true);
-        solarWind.SetActive(false);
     }
 
-    public void ShowAlign()
+    public void ShowEarth()
     {
-        pv.RPC("ShowAlignRPC", RpcTarget.AllBufferedViaServer);
-    }
-
-    [PunRPC]
-    public void HideAlignRPC()
-    {
-        mag.SetActive(true);
+        DeleteMagnets();
         earth.SetActive(true);
-        renderer.SetActive(true);
-        solarWind.SetActive(true);
     }
 
-    public void HideAlign()
+    private void HideEarth()
     {
-        pv.RPC("HideModelRPC", RpcTarget.AllBufferedViaServer);
+        earth.SetActive(false);
     }
 
-    [PunRPC]
-    public void ShowRandRPC()
+    private void DeleteMagnets()
     {
-        rand.SetActive(true);
+        fieldLineRenderer.GetComponent<FieldLineRenderer>();
+        fieldLineRenderer.magnets.Clear();
+        if (spawnedMagnets.Count > 0)
+        {
+            foreach (var prefab in spawnedMagnets)
+            {
+                Destroy(prefab);
+            }
+            spawnedMagnets.Clear();
+        }
     }
 
-    public void ShowRand()
+    public void SpawnMagnet()
     {
-        pv.RPC("ShowRandRPC", RpcTarget.AllBufferedViaServer);
+        HideEarth();
+        GameObject newMagnet = Instantiate(magnetPrefab, transform.position, Quaternion.identity);
+
+        // Get the FieldLineRenderer script attached to the FieldLineRenderer game object
+        fieldLineRenderer.GetComponent<FieldLineRenderer>();
+        // Disable the FieldLineRenderer script
+        fieldLineRenderer.GetComponent<FieldLineRenderer>().enabled = false;
+
+        if (fieldLineRenderer != null)
+        {
+            // Add the networkedMagnet to the magnets list in the FieldLineRenderer script
+            fieldLineRenderer.magnets.Add(newMagnet);
+            spawnedMagnets.Add(newMagnet);
+            // Enable the FieldLineRenderer script
+            fieldLineRenderer.GetComponent<FieldLineRenderer>().enabled = true;
+        }
+        else
+        {
+            Debug.Log("fieldLineRenderer component not found on the GameObject.");
+        }
+
     }
 
-    [PunRPC]
-    public void HideRandRPC()
-    {
-        rand.SetActive(false);
-    }
-
-    public void HideRand()
-    {
-        pv.RPC("HideRandRPC", RpcTarget.AllBufferedViaServer);
-    }
 }

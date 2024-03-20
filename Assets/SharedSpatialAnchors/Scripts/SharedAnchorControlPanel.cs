@@ -39,6 +39,9 @@ public class SharedAnchorControlPanel : MonoBehaviour
     private GameObject magnetPrefab;
 
     [SerializeField]
+    private FieldLineRenderer fieldLineRenderer;
+
+    [SerializeField]
     private GameObject roomLayoutPanelRowPrefab;
 
     [SerializeField]
@@ -78,8 +81,6 @@ public class SharedAnchorControlPanel : MonoBehaviour
 
     private List<GameObject> spawnedEarths = new List<GameObject>();
 
-    private List<GameObject> spawnedMagnets = new List<GameObject>();
-
     private PhotonPun.PhotonView pv;
 
     public TextMeshProUGUI RoomText
@@ -107,6 +108,7 @@ public class SharedAnchorControlPanel : MonoBehaviour
             renderStyleText.text = "Render: " + CoLocatedPassthroughManager.Instance.visualization.ToString();
         }
         ToggleRoomButtons(false);
+
     }
 
     private void Update()
@@ -193,8 +195,7 @@ public class SharedAnchorControlPanel : MonoBehaviour
         SampleController.Instance.Log("Earth Deleted");
     }
 
-    [PhotonPun.PunRPC]
-    public void ShowAlignmentRPC()
+    public void ShowAlignment()
     {
         if (spawnedEarths.Count > 0)
         {
@@ -206,13 +207,7 @@ public class SharedAnchorControlPanel : MonoBehaviour
         }
     }
 
-    public void ShowAlignment()
-    {
-        pv.RPC("ShowAlignmentRPC", PhotonPun.RpcTarget.AllBufferedViaServer);
-    }
-
-    [PhotonPun.PunRPC]
-    public void HideAlignmentRPC()
+    public void HideAlignment()
     {
         if (spawnedEarths.Count > 0)
         {
@@ -223,11 +218,6 @@ public class SharedAnchorControlPanel : MonoBehaviour
             }
             SampleController.Instance.Log("HideAlignmentButtonPressed");
         }
-    }
-
-    public void HideAlignment()
-    {
-        pv.RPC("HideAlignmentRPC", PhotonPun.RpcTarget.AllBufferedViaServer);
     }
 
     private void SpawnEarth()
@@ -244,15 +234,18 @@ public class SharedAnchorControlPanel : MonoBehaviour
 
     private void DeleteMagnet()
     {
-        if (spawnedMagnets.Count > 0)
+
+        var something = fieldLineRenderer.GetComponent<FieldLineRenderer>();
+        var magnetsList = something.magnets;
+
+
+        if (magnetsList.Count > 0)
         {
-            foreach (var prefab in spawnedMagnets)
+            foreach (var prefab in magnetsList)
             {
-                SampleController.Instance.Log("1");
                 PhotonPun.PhotonNetwork.Destroy(prefab);
-                SampleController.Instance.Log("2");
             }
-            spawnedMagnets.Clear();
+            magnetsList.Clear();
         }
         SampleController.Instance.Log("Magnets Deleted");
     }
@@ -260,21 +253,29 @@ public class SharedAnchorControlPanel : MonoBehaviour
     private void SpawnMagnet()
     {
         DeleteEarth();
-        DeleteMagnet();
 
         var networkedMagnet = PhotonPun.PhotonNetwork.Instantiate(magnetPrefab.name, spawnPoint.position, spawnPoint.rotation);
         var photonGrabbable = networkedMagnet.GetComponent<PhotonGrabbableObject>();
         photonGrabbable.TransferOwnershipToLocalPlayer();
-        
-        spawnedMagnets.Add(networkedMagnet);
-    }
 
-    public void CheckList()
-    {
-        foreach(var prefab in spawnedMagnets)
+        // Get the FieldLineRenderer script attached to the FieldLineRenderer game object
+        fieldLineRenderer.GetComponent<FieldLineRenderer>();
+        // Disable the FieldLineRenderer script
+        fieldLineRenderer.GetComponent<FieldLineRenderer>().enabled = false;
+
+        if (fieldLineRenderer != null)
         {
-            SampleController.Instance.Log(prefab.ToString());
+            // Add the networkedMagnet to the magnets list in the FieldLineRenderer script
+            fieldLineRenderer.magnets.Add(networkedMagnet);
+            SampleController.Instance.Log("Magnet Added");
+            // Enable the FieldLineRenderer script
+            fieldLineRenderer.GetComponent<FieldLineRenderer>().enabled = true;
         }
+        else
+        {
+            SampleController.Instance.Log("fieldLineRenderer component not found on the GameObject.");
+        }
+
     }
 
     public void ChangeUserPassthroughVisualization()

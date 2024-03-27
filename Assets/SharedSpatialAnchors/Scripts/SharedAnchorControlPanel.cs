@@ -157,7 +157,7 @@ public class SharedAnchorControlPanel : MonoBehaviour
     public void OnSpawnMagnetButtonPressed()
     {
         SampleController.Instance.Log("OnSpawnMagnetButtonPressed");
-        SpawnMagnet();
+        CallSpawnMagnetRPC();
     }
 
     public void LogNext()
@@ -250,32 +250,38 @@ public class SharedAnchorControlPanel : MonoBehaviour
         SampleController.Instance.Log("Magnets Deleted");
     }
 
+    public void CallSpawnMagnetRPC()
+    {
+        pv.RPC("SpawnMagnet", PhotonPun.RpcTarget.AllBufferedViaServer);
+    }
+
+
+    [PhotonPun.PunRPC]
     private void SpawnMagnet()
     {
         DeleteEarth();
 
-        var networkedMagnet = PhotonPun.PhotonNetwork.Instantiate(magnetPrefab.name, spawnPoint.position, spawnPoint.rotation);
+        var networkedMagnet = Instantiate(magnetPrefab, spawnPoint.position, spawnPoint.rotation); // Using Unity's Instantiate
         var photonGrabbable = networkedMagnet.GetComponent<PhotonGrabbableObject>();
         photonGrabbable.TransferOwnershipToLocalPlayer();
 
-        // Get the FieldLineRenderer script attached to the FieldLineRenderer game object
-        fieldLineRenderer.GetComponent<FieldLineRenderer>();
-        // Disable the FieldLineRenderer script
-        fieldLineRenderer.GetComponent<FieldLineRenderer>().enabled = false;
-
-        if (fieldLineRenderer != null)
+        var fieldLineRendererComponent = fieldLineRenderer.GetComponent<FieldLineRenderer>();
+        if (fieldLineRendererComponent != null)
         {
+            // Disable the FieldLineRenderer script before making changes
+            fieldLineRendererComponent.enabled = false;
+
             // Add the networkedMagnet to the magnets list in the FieldLineRenderer script
-            fieldLineRenderer.magnets.Add(networkedMagnet);
+            fieldLineRendererComponent.magnets.Add(networkedMagnet);
             SampleController.Instance.Log("Magnet Added");
-            // Enable the FieldLineRenderer script
-            fieldLineRenderer.GetComponent<FieldLineRenderer>().enabled = true;
+
+            // Re-enable the FieldLineRenderer script
+            fieldLineRendererComponent.enabled = true;
         }
         else
         {
             SampleController.Instance.Log("fieldLineRenderer component not found on the GameObject.");
         }
-
     }
 
     public void ChangeUserPassthroughVisualization()

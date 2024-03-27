@@ -57,6 +57,7 @@ MonoBehaviour:
   - ShowRandRPC
   - ShowAlignmentRPC
   - HideAlignmentRPC
+  - SpawnMagnet
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -1,6 +1,60 @@
-Photon Chat C# Client - Changelog
-Exit Games GmbH - www.photonengine.com - forum.photonengine.com
 
+Photon Chat C# Client - Changelog
+www.photonengine.com  -  Join our Discord Server: https://dashboard.photonengine.com/account/profile
+
+
+
+Version 4.1.8.0 (31. January 2024 - rev7364)
+    No notable changes.
+
+Version 4.1.7.4 (13. December 2023 - rev7284)
+    No notable changes.
+
+Version 4.1.7.3 (07. December 2023 - rev7252)
+    No notable changes.
+
+Version 4.1.7.1 (06. September 2023 - rev7148)
+    No notable changes.
+
+Version 4.1.7.0 (18. August 2023 - rev7111)
+    Changed: Some default Name Server ports: WS now connects via port 80, WSS via 443.
+    Note: The Frontend Server ports are provided by the Name Server. They might be changed to 80/443 respectively at some point (but are not yet).
+
+Version 4.1.6.26 (09. August 2023 - rev7076)
+    Changed: Name Server default port for WS is now 80, WSS is 443.
+
+Version 4.1.6.25 (05. June 2023 - rev6925)
+    No notable changes.
+
+Version 4.1.6.24 (15. May 2023 - rev6894)
+    No notable changes.
+
+Version 4.1.6.23 (15. March 2023 - rev6743)
+    Note: No notable changes for Chat API.
+
+Version 4.1.6.22  (21. December 2022 - rev6637)
+    Note: No notable changes. Only Reatime API changed.
+
+Version 4.1.6.21  (14. December 2022 - rev6623)
+    Note: No notable changes.
+
+Version 4.1.6.20  (23. September 2022 - rev6568)
+    No notable changes.
+
+Version 4.1.6.19 (12. October 2022 - rev6519)
+    No notable changes.
+
+Version 4.1.6.18 (20. September 2022 - rev6501)
+    Added: More details to some reference docs.
+
+Version 4.1.6.17 (02. August 2022 - rev6472)
+    Removed: ChatAppSettings.AppId (was obsolete for a while).
+
+Version 4.1.6.16 (20. June 2022)
+    Fixed: The ProxyServerAddress is also applied when connecting to the Frontend Server (was missing in previous update).
+
+Version 4.1.6.15 (02. June 2022)
+    Added: Proxy support (with WS/WSS) to Chat API. This can be used via ConnectUsingSettings() or by setting ChatClient.ProxyServerAddress before connecting.
 
 Version 4.1.6.11 (22. November 2021)
     Added: CustomAuthenticationType.Epic to authenticate via Epic Online Services (EOS).
@@ -120,7 +174,7 @@ Version 4.0.0.7 (12. January 2015 - rev2763)
 Version 4.0.0.1 (17. June 2014 - rev2663)
     Changed: How the server responds to Subscribe and Unsubscribe. Events will now contain success/failure of those. This allows us to send the answer after calling a WebHook if needed and we can even send it to multiple clients (which authenticated with the same userID).
     Changed: Handling of subscription responsed. This is done to allow web services to subscribe a client remotely and to be able to prevent joining some channel that a user should not join (the channel of some guild or another team, e.g.).
-    Changed: Debug logging. In Unity we can't use Debug.Assert, etc. So we have to log more cleanly. This works in Editor and several platforms (but not all).
+    Changed: Debug loggging. In Unity we can't use Debug.Assert, etc. So we have to log more cleanly. This works in Editor and several platforms (but not all).
     Changed: Folder for Chat API. It now begins with "Photon" which provides some context no matter where you copy the files. Easier to find in Unity projects.
     Changed: Operation FriendList and method SendFriendList renamed to AddFriends
     Added: Operation RemoveFriends and corresponding method in ChatClient.cs

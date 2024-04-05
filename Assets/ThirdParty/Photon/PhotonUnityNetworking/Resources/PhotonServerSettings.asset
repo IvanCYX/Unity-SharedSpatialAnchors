@@ -49,15 +49,9 @@ MonoBehaviour:
   - SendSessionStart
   - CheckForLocalAnchors
   - OnColocatedAck
-  - HideModelRPC
-  - ShowModelRPC
-  - HideAlignRPC
-  - ShowAlignRPC
-  - HideRandRPC
-  - ShowRandRPC
-  - ShowAlignmentRPC
-  - HideAlignmentRPC
   - SpawnMagnet
+  - DeleteMagnet
+  - DeleteEarth
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

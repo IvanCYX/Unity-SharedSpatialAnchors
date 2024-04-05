@@ -489,6 +489,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4845915175992131303}
     m_Modifications:
+    - target: {fileID: 912167729065764904, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
+      propertyPath: _rigidbody
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 919180666500541036, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
+      propertyPath: _rigidbody
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991978090376156964, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
+      propertyPath: _rigidbody
+      value: 
+      objectReference: {fileID: 5018166209383245865}
+    - target: {fileID: 3991978090376156964, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
+      propertyPath: _physicsGrabbable
+      value: 
+      objectReference: {fileID: 8360913207784568672}
     - target: {fileID: 8435806647619900986, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1

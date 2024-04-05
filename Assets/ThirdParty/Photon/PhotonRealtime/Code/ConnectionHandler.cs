@@ -40,11 +40,11 @@ namespace Photon.Realtime
         /// <remarks>
         /// If set to true, the thread will disconnect the client regularly, should the client not call SendOutgoingCommands / Service.
         /// This may happen due to an app being in background (and not getting a lot of CPU time) or when loading assets.
-        /// 
+        ///
         /// If false, a regular timeout time will have to pass (on top) to time out the client.
         /// </remarks>
         public bool DisconnectAfterKeepAlive = false;
-        
+
         /// <summary>Defines for how long the Fallback Thread should keep the connection, before it may time out as usual.</summary>
         /// <remarks>We want to the Client to keep it's connection when an app is in the background (and doesn't call Update / Service Clients should not keep their connection indefinitely in the background, so after some milliseconds, the Fallback Thread should stop keeping it up.</remarks>
         public int KeepAliveInBackground = 60000;
@@ -57,13 +57,21 @@ namespace Photon.Realtime
         {
             get { return this.fallbackThreadId < 255; }
         }
-        
+
         /// <summary>Keeps the ConnectionHandler, even if a new scene gets loaded.</summary>
         public bool ApplyDontDestroyOnLoad = true;
 
         /// <summary>Indicates that the app is closing. Set in OnApplicationQuit().</summary>
         [NonSerialized]
         public static bool AppQuits;
+        [NonSerialized]
+        public static bool AppPause;
+        [NonSerialized]
+        public static bool AppPauseRecent;
+        [NonSerialized]
+        public static bool AppOutOfFocus;
+        [NonSerialized]
+        public static bool AppOutOfFocusRecent;
 
 
         private byte fallbackThreadId = 255;
@@ -82,16 +90,13 @@ namespace Photon.Realtime
         static void StaticReset()
         {
             AppQuits = false;
+            AppPause = false;
+            AppPauseRecent = false;
+            AppOutOfFocus = false;
+            AppOutOfFocusRecent = false;
         }
 
         #endif
-
-
-        /// <summary>Called by Unity when the application gets closed. The UnityEngine will also call OnDisable, which disconnects.</summary>
-        protected void OnApplicationQuit()
-        {
-            AppQuits = true;
-        }
 
 
         /// <summary></summary>
@@ -112,7 +117,7 @@ namespace Photon.Realtime
             {
                 if (this.Client != null && this.Client.IsConnected)
                 {
-                    this.Client.Disconnect();
+                    this.Client.Disconnect(DisconnectCause.ApplicationQuit);
                     this.Client.LoadBalancingPeer.StopThread();
                 }
 
@@ -120,8 +125,70 @@ namespace Photon.Realtime
             }
         }
 
+
+        /// <summary>Called by Unity when the application gets closed. The UnityEngine will also call OnDisable, which disconnects.</summary>
+        public void OnApplicationQuit()
+        {
+            AppQuits = true;
+        }
+
+        /// <summary>Called by Unity when the application gets paused or resumed.</summary>
+        public void OnApplicationPause(bool pause)
+        {
+            AppPause = pause;
+
+            if (pause)
+            {
+                AppPauseRecent = true;
+                this.CancelInvoke(nameof(this.ResetAppPauseRecent));
+            }
+            else
+            {
+                Invoke(nameof(this.ResetAppPauseRecent), 5f);
+            }
+        }
+
+        private void ResetAppPauseRecent()
+        {
+            AppPauseRecent = false;
+        }
+
+        /// <summary>Called by Unity when the application changes focus.</summary>
+        public void OnApplicationFocus(bool focus)
+        {
+            AppOutOfFocus = !focus;
+            if (!focus)
+            {
+                AppOutOfFocusRecent = true;
+                this.CancelInvoke(nameof(this.ResetAppOutOfFocusRecent));
+            }
+            else
+            {
+                this.Invoke(nameof(this.ResetAppOutOfFocusRecent), 5f);
+            }
+        }
+
+        private void ResetAppOutOfFocusRecent()
+        {
+            AppOutOfFocusRecent = false;
+        }
+
+
         #endif
 
+
+        /// <summary>
+        /// When run in Unity, this returns Application.internetReachability != NetworkReachability.NotReachable.
+        /// </summary>
+        /// <returns>Application.internetReachability != NetworkReachability.NotReachable</returns>
+        public static bool IsNetworkReachableUnity()
+        {
+            #if SUPPORTED_UNITY
+            return Application.internetReachability != NetworkReachability.NotReachable;
+            #else
+            return true;
+            #endif
+        }
 
         public void StartFallbackSendAckThread()
         {
@@ -171,7 +238,7 @@ namespace Photon.Realtime
                         backgroundStopwatch.Reset();
                         backgroundStopwatch.Start();
                     }
-                    
+
                     // check if the client should disconnect after some seconds in background
                     if (backgroundStopwatch.ElapsedMilliseconds > this.KeepAliveInBackground)
                     {
@@ -181,7 +248,7 @@ namespace Photon.Realtime
                         }
                         return true;
                     }
-                    
+
 
                     this.didSendAcks = true;
                     this.CountSendAcksOnly++;

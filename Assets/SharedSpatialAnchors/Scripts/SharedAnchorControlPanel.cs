@@ -179,20 +179,6 @@ public class SharedAnchorControlPanel : MonoBehaviour
         pageText.text = SampleController.Instance.logText.pageToDisplay + "/" + SampleController.Instance.logText.textInfo.pageCount;
     }
 
-    public void DeleteEarth()
-    {
-        if (spawnedEarths.Count > 0)
-        {
-            foreach (var prefab in spawnedEarths)
-            {
-                PhotonPun.PhotonNetwork.Destroy(prefab);
-            }
-            spawnedEarths.Clear();
-        }
-        SampleController.Instance.Log("Earth Deleted");
-    }
-
-
     public void ShowAlignment()
     {
         if (spawnedEarths.Count > 0)
@@ -216,6 +202,19 @@ public class SharedAnchorControlPanel : MonoBehaviour
             }
             SampleController.Instance.Log("HideAlignmentButtonPressed");
         }
+    }
+
+    public void DeleteEarth()
+    {
+        if (spawnedEarths.Count > 0)
+        {
+            foreach (var prefab in spawnedEarths)
+            {
+                PhotonPun.PhotonNetwork.Destroy(prefab);
+            }
+            spawnedEarths.Clear();
+        }
+        SampleController.Instance.Log("Earth Deleted");
     }
 
     public void SpawnEarth()

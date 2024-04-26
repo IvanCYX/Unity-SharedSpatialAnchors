@@ -19,7 +19,7 @@ public class MagnetController : MonoBehaviour
 
                 // Add this magnet to the magnets list in the FieldLineRenderer script
                 fieldLineRenderer.magnets.Add(gameObject);
-                SampleController.Instance.Log("Magnet Added"); // Consider using Debug.Log for general logging
+                SampleController.Instance.Log("Magnet Added");
 
                 // Re-enable the FieldLineRenderer script
                 fieldLineRenderer.enabled = true;
@@ -34,6 +34,4 @@ public class MagnetController : MonoBehaviour
             SampleController.Instance.Log("GameObject with FieldLineRendererTag not found in the scene.");
         }
     }
-
-
 }

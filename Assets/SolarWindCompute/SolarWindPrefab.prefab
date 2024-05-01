@@ -117,7 +117,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 40
+      scalar: 10
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -170,7 +170,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 20
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -605,7 +605,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 20000
+    maxNumParticles: 10000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -4843,10 +4843,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 875267e03cfef7e4990fd49cabfa12b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpMax: 253
-  particleCharge: 1.602e-10
+  lerpMax: 356
+  particleCharge: -1.602e-10
   particleMass: 1.67e-18
   earthMagneticFieldMagnitude: 0.1
   earthRadius: 0.5
-  earthDipole: {x: 0, y: 0.97922283, z: 0.2027873, w: 0}
+  earthDipole: {x: 0, y: 0.9792228, z: 0.2027873, w: 0}
   computeShader: {fileID: 7200000, guid: 3ee24bfbff6a34543bfd093da99412e5, type: 3}

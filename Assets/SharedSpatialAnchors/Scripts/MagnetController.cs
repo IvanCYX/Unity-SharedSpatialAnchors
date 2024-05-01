@@ -31,7 +31,7 @@ public class MagnetController : MonoBehaviour
         }
         else
         {
-            SampleController.Instance.Log("GameObject with FieldLineRendererTag not found in the scene.");
+            SampleController.Instance.Log("GameObject with FieldLineRenderer not found in the scene.");
         }
     }
 }

@@ -648,89 +648,6 @@ MonoBehaviour:
   earth: {fileID: 114390203}
   fieldLineRenderer: {fileID: 432020128}
   magnetPrefab: {fileID: 6275354636667807837, guid: 31b33e23a41ac2840bd7124d0b8523e3, type: 3}
---- !u!1 &1610727215
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1610727216}
-  - component: {fileID: 1610727217}
-  - component: {fileID: 1610727218}
-  m_Layer: 0
-  m_Name: FieldLineRenderer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1610727216
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1610727215}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.43709606, y: 0.0031232834, z: -0.6134516}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1610727217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1610727215}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecb35f2a1b802524b874da4ccd19ae7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fieldSourceCount: 15
-  maxLineSegments: 200
-  sphereRadius: 0.015
-  stepSize: 0.025
-  maxFieldThreshold: 4575
-  minFieldThreshold: 0.01
-  maxDistance: 10
-  lineThickness: 0.005
-  fieldLerpType: 0
-  fieldLerpScale: 4.17
-  lerpColor1: {r: 0, g: 0, b: 1, a: 1}
-  lerpColor2: {r: 1, g: 0, b: 0, a: 1}
-  magnets: []
-  lineSegmentMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  lineSegmentMaterial: {fileID: 2100000, guid: 551a840d3cc7ba84288e5ba5ac98b905, type: 2}
-  fieldLineComputeShader: {fileID: 7200000, guid: 48e75f53acc97c34d8ed40424f042df7, type: 3}
---- !u!114 &1610727218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1610727215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 3
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &1701070906
 GameObject:
   m_ObjectHideFlags: 0
@@ -868,6 +785,70 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486717, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.0025
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486717, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.0025
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486717, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.0025
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486717, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0169
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486717, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0287
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486717, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486717, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486717, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486717, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486717, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486718, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 15000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486718, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486718, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486718, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486718, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.035513878
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486718, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1304135692301851880, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
       propertyPath: _rigidbody
       value: 
@@ -876,6 +857,18 @@ PrefabInstance:
       propertyPath: _rigidbody
       value: 
       objectReference: {fileID: 791878776}
+    - target: {fileID: 2755050995488512196, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755050995488512196, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755050995488512196, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.17
+      objectReference: {fileID: 0}
     - target: {fileID: 3221958905156704162, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
       propertyPath: m_Name
       value: StandaloneEarth
@@ -883,6 +876,30 @@ PrefabInstance:
     - target: {fileID: 3221958905156704162, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4053978753383019551, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: earthRadius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4053978753383019551, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: particleMass
+      value: 1e-17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4053978753383019551, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: earthDipole.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4053978753383019551, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: earthDipole.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4053978753383019551, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: earthDipole.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4053978753383019551, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: earthMagneticFieldMagnitude
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4845915175992131303, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1090,7 +1107,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 705507995}
   - {fileID: 2982998299393685461}
-  - {fileID: 1610727216}
   - {fileID: 2096711842}
   - {fileID: 1486178333}
   - {fileID: 432020129}

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using Photon.Pun;
 using UnityEngine;
 
 public class UI : MonoBehaviour
@@ -20,6 +19,15 @@ public class UI : MonoBehaviour
     private void Start()
     {
         earth.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            Debug.Log("space key was pressed");
+            ShowEarth();
+        }
     }
 
     public void ShowEarth()

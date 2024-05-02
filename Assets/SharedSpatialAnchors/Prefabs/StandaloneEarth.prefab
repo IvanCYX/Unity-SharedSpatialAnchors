@@ -49,7 +49,7 @@ MonoBehaviour:
   _maxSelectingInteractors: -1
   _data: {fileID: 0}
   _pointableElement: {fileID: 6991219106398992493}
-  _rigidbody: {fileID: 4067309555033314205}
+  _rigidbody: {fileID: 5018166209383245865}
   _grabSource: {fileID: 0}
   _useClosestPointAsGrabSource: 1
   _releaseDistance: 0
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _grabbable: {fileID: 6991219106398992493}
-  _rigidbody: {fileID: 4067309555033314205}
+  _rigidbody: {fileID: 0}
   _scaleMassWithSize: 1
 --- !u!54 &5018166209383245865
 Rigidbody:
@@ -221,7 +221,7 @@ MonoBehaviour:
   _maxSelectingInteractors: -1
   _data: {fileID: 0}
   _pointableElement: {fileID: 6991219106398992493}
-  _rigidbody: {fileID: 4067309555033314205}
+  _rigidbody: {fileID: 5018166209383245865}
   _physicsGrabbable: {fileID: 8360913207784568672}
   _resetGrabOnGrabsUpdated: 1
   _scoringModifier:
@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8951a656a7c00e74094166ef415cdce5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collider: {fileID: 7767209629022871975}
+  _collider: {fileID: 2755050995154551663}
 --- !u!1 &6450454850969247481
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,14 +489,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4845915175992131303}
     m_Modifications:
+    - target: {fileID: -1122309289101052007, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 912167729065764904, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
       propertyPath: _rigidbody
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5018166209383245865}
+    - target: {fileID: 912167729065764904, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
+      propertyPath: _pointableElement
+      value: 
+      objectReference: {fileID: 6991219106398992493}
+    - target: {fileID: 919180666500541036, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
+      propertyPath: _grabbable
+      value: 
+      objectReference: {fileID: 6991219106398992493}
     - target: {fileID: 919180666500541036, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
       propertyPath: _rigidbody
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5018166209383245865}
     - target: {fileID: 3991978090376156964, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
       propertyPath: _rigidbody
       value: 
@@ -505,6 +517,10 @@ PrefabInstance:
       propertyPath: _physicsGrabbable
       value: 
       objectReference: {fileID: 8360913207784568672}
+    - target: {fileID: 3991978090376156964, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
+      propertyPath: _pointableElement
+      value: 
+      objectReference: {fileID: 6991219106398992493}
     - target: {fileID: 8435806647619900986, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
@@ -555,7 +571,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8435806648676800291, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8435806648676800292, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
       propertyPath: m_LocalScale.x
@@ -612,10 +628,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8435806648676800288, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4067309555033314205}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
 --- !u!4 &7767209629022871968 stripped
 Transform:
@@ -625,38 +638,6 @@ Transform:
 --- !u!1 &7767209629022871972 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8435806648676800288, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
-  m_PrefabInstance: {fileID: 2222717123688707716}
-  m_PrefabAsset: {fileID: 0}
---- !u!54 &4067309555033314205
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7767209629022871972}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!65 &7767209629022871975 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 8435806648676800291, guid: 47ca53ed251fcbc45a9448b14f07cace, type: 3}
   m_PrefabInstance: {fileID: 2222717123688707716}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2747074306362761462
@@ -1164,6 +1145,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4845915175992131303}
     m_Modifications:
+    - target: {fileID: 6502769224447563630, guid: 6fda30eaca0a6134aa0fa9362c608e6f, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6502769224654638274, guid: 6fda30eaca0a6134aa0fa9362c608e6f, type: 3}
       propertyPath: m_Name
       value: Earth_Aurora
@@ -1229,6 +1214,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fda30eaca0a6134aa0fa9362c608e6f, type: 3}
+--- !u!135 &2755050995154551663 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 6502769224447563630, guid: 6fda30eaca0a6134aa0fa9362c608e6f, type: 3}
+  m_PrefabInstance: {fileID: 8936709979013649409}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2755050995488512196 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6502769224654638277, guid: 6fda30eaca0a6134aa0fa9362c608e6f, type: 3}

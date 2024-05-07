@@ -1,7 +1,7 @@
-/*using System;
-using System.Diagnostics;
+using System;
 using System.Net;
 using System.Net.Sockets;
+using TMPro;
 using System.Text;
 using System.Threading;
 using UnityEngine;
@@ -16,7 +16,7 @@ public class UDPReceiver : MonoBehaviour
 
     private string lastReceived = "Waiting for data...";  // Store the last received temperature data
 
-    public Text temperatureDisplayText;  // Assign this in the inspector if you're using a UI Text element
+    public TMP_Text temperatureDisplayText;  // Assign this in the inspector if you're using a UI Text element
 
     void Start()
     {
@@ -58,6 +58,8 @@ public class UDPReceiver : MonoBehaviour
         {
             temperatureDisplayText.text = "Temperature: " + temperature + "°C";
         }
+
+        Debug.Log(temperature);
     }
 
     void OnApplicationQuit()
@@ -77,4 +79,3 @@ public class UDPReceiver : MonoBehaviour
         CloseUDP();  // Ensure resources are released when the GameObject is destroyed
     }
 }
-*/

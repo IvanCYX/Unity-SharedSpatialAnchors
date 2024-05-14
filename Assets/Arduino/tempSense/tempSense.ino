@@ -5,6 +5,7 @@
 #include <WiFiNINA.h>
 #include <WiFiUdp.h>
 #include "secrets.h" // Include the secrets header file
+#include <U8x8lib.h>//https://github.com/olikraus/u8glib
 
 #define BME_SCK 13
 #define BME_MISO 12
@@ -16,7 +17,10 @@
 Adafruit_BME280 bme; // I2C
 WiFiUDP udp;
 
-const IPAddress udpServerIP(10, 72, 13, 237); // IP address of target device
+//Objects
+U8X8_SH1106_128X64_NONAME_HW_I2C u8x8(U8X8_PIN_NONE);
+
+const IPAddress udpServerIP(10, 65, 20, 51); // IP address of target device
 const unsigned int udpPort = 8888; // UDP port number
 
 unsigned long delayTime;
@@ -25,23 +29,31 @@ void setup() {
     Serial.begin(9600);
     Serial.println(F("BME280 test"));
 
+    //Init OLED screen
+ 	  u8x8.begin();
+ 	  u8x8.setFont(u8x8_font_chroma48medium8_r);
+ 	  u8x8.setFlipMode(0);
+
+    Serial.println("OLED begun");
+
     unsigned status;
 
     // Initialize Wi-Fi
     if (WiFi.status() == WL_NO_MODULE) {
-        Serial.println("Communication with WiFi module failed!");
+        u8x8.drawString(0, 0, "WiFi Failed");
         while (true);
     }
 
     // Attempt to connect to WiFi network using secrets
     while (status != WL_CONNECTED) {
-        Serial.print("Attempting to connect to SSID: ");
-        Serial.println(SECRET_SSID);
+        u8x8.drawString(0, 0, "Connecting to: ");
+        u8x8.drawString(0, 1, SECRET_SSID);
         status = WiFi.begin(SECRET_SSID, SECRET_PASS);
         delay(5000); // Wait 5 seconds for connection
     }
 
-    Serial.println("Connected to WiFi");
+    u8x8.clearLine(0);
+    u8x8.drawString(0, 0, "Connected to");
 
     // Initialize UDP communication
     udp.begin(udpPort);
@@ -59,7 +71,7 @@ void setup() {
     }
 
     Serial.println("-- Default Test --");
-    delayTime = 5000;
+    delayTime = 2000;
 
     Serial.println();
 }
@@ -70,34 +82,43 @@ void loop() {
 }
 
 void printValues() {
-    Serial.print("Temperature = ");
+    // Read temperature and humidity
     float temperature = bme.readTemperature();
+    float humidity = bme.readHumidity();
+
+    // Round temperature and humidity to one decimal place
+    temperature = round(temperature * 100.0) / 100.0;
+    humidity = round(humidity * 100.0) / 100.0;
+    
+    // Display temperature
+    u8x8.drawString(0, 4, "Temp= ");
+    u8x8.setCursor(8, 4); // Set cursor position after "=" in "Temp ="
+    u8x8.print(temperature, 1);
+    u8x8.drawString(12, 4, " °C");
+
+    // Display humidity
+    u8x8.drawString(0, 5, "Humidity= ");
+    u8x8.setCursor(10, 5); // Set cursor position after "=" in "Humidity ="
+    u8x8.print(humidity, 1);
+    u8x8.drawString(14, 5, " %");
+
+    // Debug printing
+    Serial.print("Temperature = ");
     Serial.print(temperature);
     Serial.println(" °C");
-
-    Serial.print("Pressure = ");
-    Serial.print(bme.readPressure() / 100.0F);
-    Serial.println(" hPa");
-
-    Serial.print("Approx. Altitude = ");
-    Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
-    Serial.println(" m");
-
     Serial.print("Humidity = ");
-    Serial.print(bme.readHumidity());
+    Serial.print(humidity);
     Serial.println(" %");
-
-    Serial.println();
-
-    // Serialize temperature data into a byte array
+    
+    //Serialize temperature data into a byte array
     byte data[sizeof(float)];
-    // memcpy (destination, ref source, size), referencing non-null temperature
-    // reference does not allow for null
     memcpy(data, &temperature, sizeof(float));
 
-    // Send UDP packet with temperature data
+    //Send UDP packet with temperature data
     udp.beginPacket(udpServerIP, udpPort);
     udp.write(data, sizeof(float));
-    Serial.print("Temp data sent");
+    Serial.println("Temp data sent");
     udp.endPacket();
+    u8x8.drawString(0, 7, "Sending data... ");
 }
+

@@ -12,8 +12,6 @@ public class UserAlert : MonoBehaviour
   
     public void displayMessage(string message)
     {
-
-        gameObject.SetActive(true);
         coroutine = writeMessage(message);
         StartCoroutine(coroutine);
     }
@@ -21,10 +19,6 @@ public class UserAlert : MonoBehaviour
     private IEnumerator writeMessage(string message)
     {        
         GetComponentInParent<TextMeshProUGUI>().text = message;
-
         yield return new WaitForSeconds(5);
-
-        gameObject.SetActive(false);
-
     }
 }

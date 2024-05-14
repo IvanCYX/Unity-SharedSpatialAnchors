@@ -1,99 +1,71 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class ParticleSystemEditor : MonoBehaviour
 {
-    public GameObject startSpeedSlider;
-
-    public TextMeshPro startSpeedReadout;
-
-    public ParticleSystem particleSystem;
-
-    private float startSpeed = 15f;
-
-    private Vector2 sliderRange = new Vector2(-0.095f, 0.095f);
-
-    public bool sliderLock = true;
-
-    [SerializeField]
-    private uint sliderModified;
-
-    private Vector3 centerPosition = new Vector3(-0.5f, 1.45f, 0.6f);
+    private float zval, limit, backLimit;
+    public float scaledVal;
+    private Vector3 prevPosition, curPosition;
+    public ParticleSystem particleSystem; // Reference to the particle system
+    private float startSpeed = 15f; // Default start speed value
+    private Vector2 sliderRange = new Vector2(-0.095f, 0.095f); // Range of slider values
 
     void Start()
     {
+        limit = 0.152f;
+        backLimit = -0.03f;
+        prevPosition = gameObject.transform.localPosition;
+        updatePosition(prevPosition);
+        // Get the particle system component
         particleSystem = GetComponent<ParticleSystem>();
-        var main = particleSystem.main;
-        main.startSpeed = startSpeed;
+        // Set the initial start speed
+        SetStartSpeed(startSpeed);
     }
 
     void Update()
     {
-        if (particleSystem != null)
+        curPosition = gameObject.transform.localPosition;
+        if (curPosition != prevPosition)
         {
-            if (sliderLock) { determineSliderModified(); }
-            calculateSliderValuesAfterModification();
-            updateSpeedAndReadout();
-            setStartSpeedSlider();
+            updatePosition(curPosition);
+            // Update the start speed based on the scaled value
+            UpdateStartSpeed(scaledVal);
         }
     }
 
-    private void updateSpeedAndReadout()
+    private void updatePosition(Vector3 newPos)
     {
-        startSpeedReadout.text = decimal.Round((decimal)startSpeed, 2).ToString();
-    }
-
-    //setting slider range to interface particle sys startSpeed
-    private void setStartSpeedSlider()
-    {
-        setSliderToPosition(startSpeedSlider, remap(Constants.minimumStartSpeed, Constants.maximumStartSpeed,
-                                                           sliderRange.x, sliderRange.y,
-                                                           startSpeed));
-    }
-
-    private void updateSliders()
-    {
-        setStartSpeedSlider();
-    }
-
-    private float readStartSpeedSlider()
-    {
-        return remap(sliderRange.x, sliderRange.y,
-                     Constants.minimumStartSpeed, Constants.maximumStartSpeed,
-                     readSliderPosition(startSpeedSlider));
-    }
-
-    private void calculateSliderValuesAfterModification()
-    {
-        switch (sliderModified)
+        if (newPos.z > limit)
         {
-            case 0: //No slider has been moved
-                return;
-            case 1: //Refractive index slider has been moved
-                startSpeed = readStartSpeedSlider();
-                return;
+            zval = limit;
         }
+        else if (newPos.z < backLimit)
+        {
+            zval = backLimit;
+        }
+        else
+        {
+            zval = newPos.z;
+        }
+        prevPosition = new Vector3(0f, -0.004f, zval);
+        gameObject.transform.localPosition = prevPosition;
+        scaledVal = (zval + limit) / (2 * limit);
+        Debug.Log(curPosition);
     }
 
-    private void determineSliderModified()
+    private void UpdateStartSpeed(float value)
     {
-        sliderModified = 1;
-
+        // Remap the scaled value to the start speed range
+        float remappedSpeed = remap(0f, 1f, sliderRange.x, sliderRange.y, value);
+        SetStartSpeed(remappedSpeed);
     }
 
-    private void setSliderToPosition(GameObject slider, float position)
+    private void SetStartSpeed(float speed)
     {
-        slider.transform.localPosition = new Vector3(position, slider.transform.localPosition.y, slider.transform.localPosition.z);
+        var main = particleSystem.main;
+        main.startSpeed = speed;
     }
-
-
-    private float readSliderPosition(GameObject slider)
-    {
-        return slider.transform.localPosition.x;
-    }
-
 
     private float remap(float origFrom, float origTo, float targetFrom, float targetTo, float value)
     {

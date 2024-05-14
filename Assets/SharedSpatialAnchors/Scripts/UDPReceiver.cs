@@ -1,81 +1,61 @@
-using System;
-using System.Net;
-using System.Net.Sockets;
-using TMPro;
-using System.Text;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
+using TMPro;
+using System.Net.Sockets;
+using System.Text;
+using System.Net;
 
-public class UDPReceiver : MonoBehaviour
+public class UDPListener : MonoBehaviour
 {
-    Thread receiveThread;
-    UdpClient client;
-    public int port = 8888;  // Ensure this matches the Arduino sending port
-
-    private string lastReceived = "Waiting for data...";  // Store the last received temperature data
-
-    public TMP_Text temperatureDisplayText;  // Assign this in the inspector if you're using a UI Text element
+    public int listenPort = 8888; // UDP port to listen on
+    public UserAlert userAlert; // Reference to the UserAlert script
+    private UdpClient udpClient;
+    private IPEndPoint remoteEndPoint;
 
     void Start()
     {
-        InitUDP();
+        // Initialize UDP client and remote endpoint
+        udpClient = new UdpClient(listenPort);
+        remoteEndPoint = new IPEndPoint(System.Net.IPAddress.Any, 0);
+        userAlert.displayMessage("established endpoint connection");
+
+        // Start listening for UDP packets in a separate thread
+        udpClient.BeginReceive(ReceiveCallback, null);
     }
 
-    private void InitUDP()
+    // Callback function to handle received UDP packets
+    private void ReceiveCallback(System.IAsyncResult ar)
     {
-        client = new UdpClient(port);
-        receiveThread = new Thread(new ThreadStart(ReceiveData));
-        receiveThread.IsBackground = true;
-        receiveThread.Start();
-    }
+        // Get the received data and remote endpoint
+        byte[] receivedBytes = udpClient.EndReceive(ar, ref remoteEndPoint);
+        string receivedString = System.Text.Encoding.ASCII.GetString(receivedBytes);
+        userAlert.displayMessage(receivedString);
 
-    private void ReceiveData()
-    {
-        IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
-        while (true)
+        float temperature;
+        if (float.TryParse(receivedString, out temperature))
         {
-            try
-            {
-                byte[] data = client.Receive(ref anyIP);
-                lastReceived = Encoding.UTF8.GetString(data);
-                Debug.Log(">> " + lastReceived);
-                UpdateTemperatureDisplay(lastReceived);
-            }
-            catch (Exception err)
-            {
-                Debug.LogError(err.ToString());
-                break;  // Exit the loop on exception to avoid an infinite logging of exceptions
-            }
+            // Display temperature data using UserAlert script
+            string message = "Temperature: " + temperature.ToString("F2") + " °C";
+            userAlert.displayMessage(message);
+        }
+
+        // Continue listening for more UDP packets
+        udpClient.BeginReceive(ReceiveCallback, null);
+    }
+
+    private void OnDestroy()
+    {
+        if (udpClient != null)
+        {
+            udpClient.Close();
         }
     }
 
-    // Call this method to update the UI text
-    void UpdateTemperatureDisplay(string temperature)
+    private void OnApplicationQuit()
     {
-        if (temperatureDisplayText != null)
+        // Close UDP client when the application quits
+        if (udpClient != null)
         {
-            temperatureDisplayText.text = "Temperature: " + temperature + "°C";
+            udpClient.Close();
         }
-
-        Debug.Log(temperature);
-    }
-
-    void OnApplicationQuit()
-    {
-        CloseUDP();
-    }
-
-    private void CloseUDP()
-    {
-        receiveThread?.Abort();
-        client?.Close();
-        Debug.Log("UDP Receiver closed");
-    }
-
-    void OnDestroy()
-    {
-        CloseUDP();  // Ensure resources are released when the GameObject is destroyed
     }
 }

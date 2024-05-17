@@ -20,7 +20,7 @@ WiFiUDP udp;
 //Objects
 U8X8_SH1106_128X64_NONAME_HW_I2C u8x8(U8X8_PIN_NONE);
 
-const IPAddress udpServerIP(10, 65, 20, 51); // IP address of target device
+const IPAddress udpServerIP(10, 65, 38, 218); // IP address of target device
 const unsigned int udpPort = 8888; // UDP port number
 
 unsigned long delayTime;
@@ -90,18 +90,6 @@ void printValues() {
     temperature = round(temperature * 100.0) / 100.0;
     humidity = round(humidity * 100.0) / 100.0;
     
-    // Display temperature
-    u8x8.drawString(0, 4, "Temp= ");
-    u8x8.setCursor(8, 4); // Set cursor position after "=" in "Temp ="
-    u8x8.print(temperature, 1);
-    u8x8.drawString(12, 4, " °C");
-
-    // Display humidity
-    u8x8.drawString(0, 5, "Humidity= ");
-    u8x8.setCursor(10, 5); // Set cursor position after "=" in "Humidity ="
-    u8x8.print(humidity, 1);
-    u8x8.drawString(14, 5, " %");
-
     // Debug printing
     Serial.print("Temperature = ");
     Serial.print(temperature);
@@ -118,7 +106,22 @@ void printValues() {
     udp.beginPacket(udpServerIP, udpPort);
     udp.write(data, sizeof(float));
     Serial.println("Temp data sent");
-    udp.endPacket();
-    u8x8.drawString(0, 7, "Sending data... ");
-}
+    int sent = udp.endPacket();
+    
+    if (!sent) {
+      u8x8.drawString(0, 7, "You fucked up");
+    } else {
+      // Display temperature
+      u8x8.drawString(0, 4, "Temp= ");
+      u8x8.setCursor(8, 4); // Set cursor position after "=" in "Temp ="
+      u8x8.print(temperature, 1);
+      u8x8.drawString(12, 4, " °C");
 
+      // Display humidity
+      u8x8.drawString(0, 5, "Humidity= ");
+      u8x8.setCursor(10, 5); // Set cursor position after "=" in "Humidity ="
+      u8x8.print(humidity, 1);
+      u8x8.drawString(14, 5, " %");
+      u8x8.drawString(0, 7, "Sending data... ");
+    }
+}

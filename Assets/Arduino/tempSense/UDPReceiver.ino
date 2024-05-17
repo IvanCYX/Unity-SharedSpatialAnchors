@@ -25,20 +25,15 @@
 //     u8x8.begin();
 //     u8x8.setFont(u8x8_font_chroma48medium8_r);
 //     u8x8.setFlipMode(0);
-//     u8x8.drawString(0, 0, "Initializing...");
 
 //     // Connect to WiFi network
-//     Serial.print("Connecting to ");
-//     Serial.println(ssid);
 //     WiFi.begin(ssid, pass);
 //     while (WiFi.status() != WL_CONNECTED) {
+//         u8x8.drawString(0, 0, "Connecting to: ");
+//         u8x8.drawString(0, 1, SECRET_SSID);
 //         delay(500);
 //         Serial.print(".");
 //     }
-//     Serial.println("WiFi connected");
-//     Serial.println("IP Address: ");
-//     Serial.println(WiFi.localIP());
-
 //      // Display WiFi connection status
 //     if (WiFi.status() == WL_CONNECTED) {
 //         u8x8.clear();
@@ -51,8 +46,12 @@
 //     }
 
 //     // Begin UDP communication
-//     udp.begin(localUdpPort);
-//     Serial.print("Listening for UDP packets on port ");
+//     int connected = udp.begin(localUdpPort);
+//     if (!connected) {
+//       Serial.print("No udp port");
+//     } else {
+//       Serial.print("Listening for UDP packets on port ");
+//     }
 //     Serial.println(localUdpPort);
 // }
 
@@ -65,11 +64,12 @@
 //         float temperature;
 //         memcpy(&temperature, data, sizeof(float));
 //         u8x8.clear();
-//         u8x8.drawString(0, 0, "Temperature:");
-//         u8x8.setCursor(0, 2);
-//         u8x8.print(temperature);
-//         u8x8.print(" C");
+//         u8x8.drawString(0, 5, "Temp= ");
+//         u8x8.setCursor(8, 5); // Set cursor position after "=" in "Temp ="
+//         u8x8.print(temperature, 1);
+//         u8x8.drawString(12, 4, " °C");
+//         Serial.print(temperature);
+//     } else {
+//       u8x8.drawString(0, 5, "No packet");
 //     }
-
-//     delay(1000); // Delay to avoid flooding the display
 // }

@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class ParticleSystemEditor : MonoBehaviour
 {
-    private float zval, limit, backLimit;
+    private float xval, limit, backLimit;
     public float scaledVal;
-    private Vector3 prevPosition, curPosition;
+    private Vector3 startPosition, prevPosition, curPosition;
     public ParticleSystem particleSystem; // Reference to the particle system
     private float startSpeed = 15f; // Default start speed value
-    private Vector2 sliderRange = new Vector2(-0.095f, 0.095f); // Range of slider values
+    private Vector2 sliderRange = new Vector2(-1f, 1f); // Range of slider values
 
     void Start()
     {
-        limit = 0.152f;
-        backLimit = -0.03f;
+        limit = -0.0939f;
+        backLimit = 0.0939f;
+        
+        //set start position to start in the middle
         prevPosition = gameObject.transform.localPosition;
         updatePosition(prevPosition);
         // Get the particle system component
@@ -36,28 +38,28 @@ public class ParticleSystemEditor : MonoBehaviour
 
     private void updatePosition(Vector3 newPos)
     {
-        if (newPos.z > limit)
+        if (newPos.x > limit)
         {
-            zval = limit;
+            xval = limit;
         }
-        else if (newPos.z < backLimit)
+        else if (newPos.x < backLimit)
         {
-            zval = backLimit;
+            xval = backLimit;
         }
         else
         {
-            zval = newPos.z;
+            xval = newPos.x;
         }
-        prevPosition = new Vector3(0f, -0.004f, zval);
+        prevPosition = new Vector3(0f, -0.004f, xval);
         gameObject.transform.localPosition = prevPosition;
-        scaledVal = (zval + limit) / (2 * limit);
+        scaledVal = (xval + limit) / (2 * limit);
         Debug.Log(curPosition);
     }
 
     private void UpdateStartSpeed(float value)
     {
         // Remap the scaled value to the start speed range
-        float remappedSpeed = remap(0f, 1f, sliderRange.x, sliderRange.y, value);
+        float remappedSpeed = remap(10f, 15f, sliderRange.x, sliderRange.y, value);
         SetStartSpeed(remappedSpeed);
     }
 

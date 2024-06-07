@@ -3,13 +3,12 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using UnityEngine;
-using TMPro;
 
 public class TCPClientReceiver : MonoBehaviour
 {
-    public string serverIp = "your_arduino_ip"; // Replace with Arduino's IP address
+    public string serverIp = "10.65.38.218"; // Replace with Arduino's IP address
     public int serverPort = 8888; // Arduino server port
-    public TextMeshProUGUI temperatureDisplayText; // Assign in inspector
+    public UserAlert userAlert;
 
     private TcpClient client;
     private NetworkStream stream;
@@ -17,6 +16,7 @@ public class TCPClientReceiver : MonoBehaviour
 
     private void Start()
     {
+        userAlert.displayMessage("Starting TCPClientReceiver...");
         ConnectToServer();
     }
 
@@ -24,15 +24,17 @@ public class TCPClientReceiver : MonoBehaviour
     {
         try
         {
+            userAlert.displayMessage($"Attempting to connect to server at {serverIp}:{serverPort}...");
             client = new TcpClient(serverIp, serverPort);
             stream = client.GetStream();
             clientThread = new Thread(new ThreadStart(ListenForData));
             clientThread.IsBackground = true;
             clientThread.Start();
+            userAlert.displayMessage("Connected to server.");
         }
         catch (Exception e)
         {
-            Debug.LogError("Failed to connect to server: " + e.Message);
+            userAlert.displayMessage("Failed to connect to server: " + e.Message);
         }
     }
 
@@ -41,15 +43,23 @@ public class TCPClientReceiver : MonoBehaviour
         byte[] buffer = new byte[1024];
         while (true)
         {
-            if (stream.CanRead)
+            try
             {
-                int bytesRead = stream.Read(buffer, 0, buffer.Length);
-                if (bytesRead > 0)
+                if (stream.CanRead)
                 {
-                    string dataReceived = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    Debug.Log("Data received: " + dataReceived);
-                    UpdateTemperatureDisplay(dataReceived);
+                    int bytesRead = stream.Read(buffer, 0, buffer.Length);
+                    if (bytesRead > 0)
+                    {
+                        string dataReceived = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                        userAlert.displayMessage("Data received: " + dataReceived);
+                        UpdateTemperatureDisplay(dataReceived);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                userAlert.displayMessage("Error while reading data: " + e.Message);
+                break;
             }
             Thread.Sleep(1000); // To avoid busy-waiting, adjust as needed
         }
@@ -57,14 +67,16 @@ public class TCPClientReceiver : MonoBehaviour
 
     private void UpdateTemperatureDisplay(string data)
     {
-        // Use Unity's main thread to update the UI
-        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+        float temperature;
+        if (float.TryParse(data, out temperature))
         {
-            if (temperatureDisplayText != null)
-            {
-                temperatureDisplayText.text = "Temperature: " + data;
-            }
-        });
+            string message = "Temperature: " + temperature.ToString("F2") + " °C";
+            userAlert.displayMessage(message);
+        }
+        else
+        {
+            userAlert.displayMessage("Invalid data received: " + data);
+        }
     }
 
     private void OnApplicationQuit()
@@ -94,6 +106,6 @@ public class TCPClientReceiver : MonoBehaviour
             client.Close();
         }
 
-        Debug.Log("TCP Client closed");
+        userAlert.displayMessage("TCP Client closed");
     }
 }

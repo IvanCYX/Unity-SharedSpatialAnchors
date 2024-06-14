@@ -14,6 +14,8 @@ public class TCPClientReceiver : MonoBehaviour
     private NetworkStream stream;
     private Thread clientThread;
 
+
+
     private void Start()
     {
         UnityMainThreadDispatcher.Instance().Enqueue(() => userAlert.displayMessage("Starting TCPClientReceiver..."));
@@ -55,7 +57,7 @@ public class TCPClientReceiver : MonoBehaviour
         }
     }
 
-    private void ListenForData()
+    void ListenForData()
     {
         byte[] buffer = new byte[1024];
         while (true)
@@ -68,7 +70,7 @@ public class TCPClientReceiver : MonoBehaviour
                     if (bytesRead > 0)
                     {
                         string dataReceived = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                        UnityMainThreadDispatcher.Instance().Enqueue(() => userAlert.displayMessage("Data received: " + dataReceived));
+                        UnityMainThreadDispatcher.Instance().Enqueue(() => userAlert.displayMessage(dataReceived));
                         UpdateTemperatureDisplay(dataReceived);
                     }
                 }

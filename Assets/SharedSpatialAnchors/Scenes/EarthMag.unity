@@ -789,6 +789,18 @@ PrefabInstance:
       propertyPath: m_text
       value: FooBar
       objectReference: {fileID: 0}
+    - target: {fileID: 5089008813948477057, guid: 1c2b4e0c16bbd77469b6660335a9f3f6, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 5089008813948477057, guid: 1c2b4e0c16bbd77469b6660335a9f3f6, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 5089008813948477057, guid: 1c2b4e0c16bbd77469b6660335a9f3f6, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5597426077823677881, guid: 1c2b4e0c16bbd77469b6660335a9f3f6, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1167,6 +1179,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1397772745}
   - component: {fileID: 1397772746}
+  - component: {fileID: 1397772747}
   m_Layer: 0
   m_Name: TCPListener
   m_TagString: Untagged
@@ -1183,7 +1196,7 @@ Transform:
   m_GameObject: {fileID: 1397772743}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1779626, y: 1.1335688, z: 3.2352998}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1204,6 +1217,18 @@ MonoBehaviour:
   serverIp: 10.65.38.218
   serverPort: 8888
   userAlert: {fileID: 987032457}
+--- !u!114 &1397772747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397772743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 156b71a1daea8664984c90da28855360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1474380289
 GameObject:
   m_ObjectHideFlags: 0

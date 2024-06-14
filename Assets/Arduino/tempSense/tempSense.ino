@@ -22,7 +22,7 @@ char pass[] = SECRET_PASS;
 
 unsigned long delayTime;
 
-// Objects
+// OLED Display
 U8X8_SH1106_128X64_NONAME_HW_I2C u8x8(U8X8_PIN_NONE);
 
 void setup() {
@@ -119,10 +119,5 @@ void printValues(WiFiClient& client) {
     u8x8.drawString(12, 6, "%");
 
     // Send data to client
-    client.print("Temperature: ");
-    client.print(temperature);
-    client.println(" C");
-    client.print("Humidity: ");
-    client.print(humidity);
-    client.println(" %");
+    client.print("Temp: " + String(temperature) + ("C \nHum: ") + String(humidity) + "%");
 }

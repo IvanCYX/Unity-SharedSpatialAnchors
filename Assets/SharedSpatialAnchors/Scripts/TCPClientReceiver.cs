@@ -9,12 +9,11 @@ public class TCPClientReceiver : MonoBehaviour
     public string serverIp = "10.65.38.218"; // Replace with Arduino's IP address
     public int serverPort = 8888; // Arduino server port
     public UserAlert userAlert; // Reference to the UserAlert script
+    public GameObject targetObject; // The object to be manipulated
 
     private TcpClient client;
     private NetworkStream stream;
     private Thread clientThread;
-
-
 
     private void Start()
     {
@@ -71,7 +70,7 @@ public class TCPClientReceiver : MonoBehaviour
                     {
                         string dataReceived = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                         UnityMainThreadDispatcher.Instance().Enqueue(() => userAlert.displayMessage(dataReceived));
-                        UpdateTemperatureDisplay(dataReceived);
+                        UpdateTransform(dataReceived);
                     }
                 }
             }
@@ -84,15 +83,42 @@ public class TCPClientReceiver : MonoBehaviour
         }
     }
 
-    private void UpdateTemperatureDisplay(string data)
+    private void UpdateTransform(string data)
     {
         UnityMainThreadDispatcher.Instance().Enqueue(() =>
         {
-            float temperature;
-            if (float.TryParse(data, out temperature))
+            try
             {
-                string message = temperature.ToString("F2");
-                userAlert.displayMessage(message);
+                string[] lines = data.Split('\n');
+                foreach (string line in lines)
+                {
+                    string[] values = line.Split('\t');
+                    if (values.Length >= 6)
+                    {
+                        // Extract accelerometer data
+                        float accelX = float.Parse(values[0].Split(' ')[2]);
+                        float accelY = float.Parse(values[1].Split(' ')[1]);
+                        float accelZ = float.Parse(values[2].Split(' ')[1]);
+
+                        // Extract gyroscope data
+                        float gyroX = float.Parse(values[3].Split(' ')[2]);
+                        float gyroY = float.Parse(values[4].Split(' ')[1]);
+                        float gyroZ = float.Parse(values[5].Split(' ')[1]);
+
+                        //TODO: Make changes to position and rotation logic
+                        //Maybe use the accelerometer for rotation?
+
+                        // Update position based on accelerometer data
+                        //targetObject.transform.position += new Vector3(accelX, accelY, accelZ) * Time.deltaTime;
+
+                        // Update rotation based on gyroscope data
+                        //targetObject.transform.rotation *= Quaternion.Euler(gyroX, gyroY, gyroZ);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                userAlert.displayMessage("Error while parsing data: " + e.Message);
             }
         });
     }

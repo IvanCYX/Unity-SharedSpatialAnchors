@@ -53,7 +53,6 @@ public class ParticleSystemEditor : MonoBehaviour
         prevPosition = new Vector3(0f, -0.004f, xval);
         gameObject.transform.localPosition = prevPosition;
         scaledVal = (xval + limit) / (2 * limit);
-        Debug.Log(curPosition);
     }
 
     private void UpdateStartSpeed(float value)

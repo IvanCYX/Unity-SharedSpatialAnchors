@@ -6,10 +6,12 @@ using UnityEngine;
 
 public class HTTPSClientReceiver : MonoBehaviour
 {
-    public string serverUrl = "https://your.quest3.server/data"; // Replace with your server URL
-    public UserAlert userAlert; // Reference to the UserAlert script
+    public string serverUrl = "https://your.quest3.server/data"; // Server URL
+    public UserAlert userAlert;
+    public Transform targetTransform; // Target object
 
     private HttpClient httpClient;
+    private Vector3 lastData = Vector3.zero;
 
     private void Start()
     {
@@ -41,7 +43,7 @@ public class HTTPSClientReceiver : MonoBehaviour
 
     private void UpdateTransform(string data)
     {
-        // Parse the data string and update the transform
+        // Parse data string and update transform
         // Assuming data is in format "AccelX=value&AccelY=value&AccelZ=value&GyroX=value&GyroY=value&GyroZ=value"
         var values = data.Split('&');
         float accelX = float.Parse(values[0].Split('=')[1]);
@@ -51,9 +53,9 @@ public class HTTPSClientReceiver : MonoBehaviour
         float gyroY = float.Parse(values[4].Split('=')[1]);
         float gyroZ = float.Parse(values[5].Split('=')[1]);
 
-        // MODIFY TO arduinoCtrl script
-        transform.position = new Vector3(accelX, accelY, accelZ);
-        transform.rotation = Quaternion.Euler(gyroX, gyroY, gyroZ);
+        // Update rotation transform
+        lastData = new Vector3(accelX, accelY, accelZ);
+        targetTransform.rotation = Quaternion.Slerp(targetTransform.rotation, Quaternion.Euler(lastData), Time.deltaTime * 2f);
     }
 
     private void OnApplicationQuit()

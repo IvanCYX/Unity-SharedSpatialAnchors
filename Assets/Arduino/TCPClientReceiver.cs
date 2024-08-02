@@ -22,11 +22,6 @@ public class TCPClientReceiver : MonoBehaviour
         ConnectToServer();
     }
 
-    private void Update()
-    {
-        UpdateTransform();
-    }
-
     private void ConnectToServer()
     {
         try

@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Grab
+  - HandGrab
+  - NegativePole
+  - PositivePole
+  - LeftIndexTip
+  - RightIndexTip
   layers:
   - Default
   - TransparentFX

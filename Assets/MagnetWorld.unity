@@ -497,6 +497,10 @@ PrefabInstance:
       value: SolarWindPrefab
       objectReference: {fileID: 0}
     - target: {fileID: 5197713538940695549, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
+      propertyPath: lengthInSec
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5197713538940695549, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
       propertyPath: ShapeModule.type
       value: 8
       objectReference: {fileID: 0}
@@ -521,6 +525,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5197713538940695549, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
+      propertyPath: ShapeModule.m_Position.x
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 5197713538940695549, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
       propertyPath: ShapeModule.radius.value
       value: 200
       objectReference: {fileID: 0}
@@ -538,7 +546,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5197713538940695549, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5197713538940695549, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
@@ -546,7 +554,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5197713538940695549, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 20
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5197713538940695550, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
       propertyPath: m_LocalScale.x
@@ -574,11 +582,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5197713538940695550, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.97054857
+      value: 0.9849589
       objectReference: {fileID: 0}
     - target: {fileID: 5197713538940695550, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.24090564
+      value: -0.17278863
       objectReference: {fileID: 0}
     - target: {fileID: 5197713538940695550, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
       propertyPath: m_LocalRotation.y
@@ -590,7 +598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5197713538940695550, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -27.88
+      value: -19.9
       objectReference: {fileID: 0}
     - target: {fileID: 5197713538940695550, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -609,6 +617,10 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 9111998670911593820, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
+      propertyPath: particleMass
+      value: 6.64e-25
+      objectReference: {fileID: 0}
+    - target: {fileID: 9111998670911593820, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
       propertyPath: distanceScale
       value: 1
       objectReference: {fileID: 0}
@@ -617,8 +629,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9111998670911593820, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
+      propertyPath: earthDipole.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9111998670911593820, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
+      propertyPath: particleCharge
+      value: 3.2e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9111998670911593820, guid: c081978d17cda4e40bf247b16aeb3d5c, type: 3}
       propertyPath: earthMagneticFieldMagnitude
-      value: 0.1
+      value: 0.000000025
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -34,7 +34,7 @@ public class arduinoCtrl : MonoBehaviour
 
         lastData = new Vector3(AccX, AccY, AccZ);
 
-        t.transform.rotation = Quaternion.Slerp(t.transform.rotation, Quaternion.Euler(lastData), Time.deltaTime * 2f);
+        t.transform.rotation = Quaternion.Slerp(t.transform.rotation, Quaternion.Euler(lastData), Time.deltaTime * 5f);
 
     }
 }

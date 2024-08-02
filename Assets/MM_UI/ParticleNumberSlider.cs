@@ -4,7 +4,7 @@ using UnityEngine;
 using Oculus.Interaction;
 using Photon.Pun;
 
-public class PointableSlider : MonoBehaviour
+public class ParticleNumberSlider : MonoBehaviour
 {
     public List<Transform> fingerTips;
     public Transform sliderKnob, panel;
@@ -99,9 +99,9 @@ public class PointableSlider : MonoBehaviour
         y = 0.5f * (sliderKnob.transform.localPosition.y / yRange) + 0.5f;
 
         var main = vectorFieldParticleSystem.main;
-        main.startSpeed = Mathf.Lerp(0.1f, 1f, x);
+        main.maxParticles = Mathf.RoundToInt(Mathf.Lerp(1000f, 18000f, x));
 
-        //Debug.Log("Particle System Start Speed: " + main.startSpeed.constant);
+        //Debug.Log("Particle System Max Particles: " + main.maxParticles);
     }
 
     private IEnumerator acquireFingerTip(string fingerTag)

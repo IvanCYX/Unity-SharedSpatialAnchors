@@ -714,7 +714,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 956230062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92257ac161c43d441bea33e531a1d998, type: 3}
+  m_Script: {fileID: 11500000, guid: 286101bcb63497b47bd9a302cd2a73a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   t: {fileID: 956230067}
@@ -1335,13 +1335,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1397772743}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbfd9d3439a6f324e93f7ad239d779f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cc2fd147638fdf408bad1bced10ac46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverIp: 10.65.38.218
+  serverIp: 10.65.16.181
   serverPort: 8888
   userAlert: {fileID: 987032457}
-  targetObject: {fileID: 0}
+  targetObject: {fileID: 956230062}
 --- !u!114 &1397772747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1880,6 +1880,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1015296036998486713, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1015296036998486717, guid: b1b3d205e2b212740afd3407dad9800d, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.0025
@@ -2159,15 +2163,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5414912244175512723, guid: 60fa00281e83b294583adc31df520fbe, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.338
+      value: 0.033
       objectReference: {fileID: 0}
     - target: {fileID: 5414912244175512723, guid: 60fa00281e83b294583adc31df520fbe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.559
+      value: 1.041
       objectReference: {fileID: 0}
     - target: {fileID: 5414912244175512723, guid: 60fa00281e83b294583adc31df520fbe, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.569
+      value: -0.188
       objectReference: {fileID: 0}
     - target: {fileID: 5414912244175512723, guid: 60fa00281e83b294583adc31df520fbe, type: 3}
       propertyPath: m_LocalRotation.w

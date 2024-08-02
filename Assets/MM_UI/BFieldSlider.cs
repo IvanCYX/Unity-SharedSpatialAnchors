@@ -4,17 +4,20 @@ using UnityEngine;
 using Oculus.Interaction;
 using Photon.Pun;
 
-public class PointableSlider : MonoBehaviour
+public class BFieldSlider : MonoBehaviour
 {
     public List<Transform> fingerTips;
     public Transform sliderKnob, panel;
     private PhotonView knobPV;
     public float minimumZ;
     public ParticleSystem vectorFieldParticleSystem;
+    private SolarWindController solarWindController;
+
     [HideInInspector]
     public float x, y;
     private float xRange, yRange;
     public bool setX, setY;
+
     void Awake()
     {
         knobPV = sliderKnob.GetComponent<PhotonView>();
@@ -23,6 +26,8 @@ public class PointableSlider : MonoBehaviour
         StartCoroutine(acquireFingerTip("RightIndexTip"));
         xRange = panel.transform.localScale.x / 2;
         yRange = panel.transform.localScale.y / 2;
+
+        solarWindController = vectorFieldParticleSystem.GetComponent<SolarWindController>();
     }
 
     void Update()
@@ -98,10 +103,12 @@ public class PointableSlider : MonoBehaviour
         x = 0.5f * (sliderKnob.transform.localPosition.x / xRange) + 0.5f;
         y = 0.5f * (sliderKnob.transform.localPosition.y / yRange) + 0.5f;
 
-        var main = vectorFieldParticleSystem.main;
-        main.startSpeed = Mathf.Lerp(0.1f, 1f, x);
-
-        //Debug.Log("Particle System Start Speed: " + main.startSpeed.constant);
+        // Set the base magnitude and adjust the exponent using the slider
+        if (solarWindController != null)
+        {
+            float exponent = Mathf.Lerp(-13, -9, x);
+            solarWindController.earthMagneticFieldMagnitude = 2.5f * Mathf.Pow(10, exponent);
+        }
     }
 
     private IEnumerator acquireFingerTip(string fingerTag)

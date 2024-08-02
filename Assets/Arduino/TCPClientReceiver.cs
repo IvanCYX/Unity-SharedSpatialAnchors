@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TCPClientReceiver : MonoBehaviour
 {
-    public string serverIp = "10.65.38.218"; // Replace with Arduino's IP address
+    public string serverIp = "10.65.16.181"; // Replace with Arduino's IP address
     public int serverPort = 8888; // Arduino server port
     public UserAlert userAlert; // Reference to the UserAlert script
     public GameObject targetObject; // The object to be manipulated
@@ -14,11 +14,17 @@ public class TCPClientReceiver : MonoBehaviour
     private TcpClient client;
     private NetworkStream stream;
     private Thread clientThread;
+    private string currentData = "AccelX=0.00&AccelY=0.00&AccelZ=0.00&GyroX=0.00&GyroY=0.00&GyroZ=0.00";
 
     private void Start()
     {
         UnityMainThreadDispatcher.Instance().Enqueue(() => userAlert.displayMessage("Starting TCPClientReceiver..."));
         ConnectToServer();
+    }
+
+    private void Update()
+    {
+        UpdateTransform();
     }
 
     private void ConnectToServer()
@@ -69,7 +75,8 @@ public class TCPClientReceiver : MonoBehaviour
                     if (bytesRead > 0)
                     {
                         string dataReceived = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                        UnityMainThreadDispatcher.Instance().Enqueue(() => userAlert.displayMessage(dataReceived));
+                        currentData = dataReceived; // Update the currentData with the latest received data
+                        UnityMainThreadDispatcher.Instance().Enqueue(() => UpdateDisplay(currentData));
                         UpdateTransform(dataReceived);
                     }
                 }
@@ -83,44 +90,46 @@ public class TCPClientReceiver : MonoBehaviour
         }
     }
 
+    private void UpdateDisplay(string data)
+    {
+        // Use the same text format, but update only the numbers
+        UnityMainThreadDispatcher.Instance().Enqueue(() => userAlert.displayMessage(data));
+    }
+
     private void UpdateTransform(string data)
     {
-        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+        try
         {
-            try
+            // Split the data by & and extract the values
+            string[] values = data.Split('&');
+            if (values.Length >= 6)
             {
-                string[] lines = data.Split('\n');
-                foreach (string line in lines)
-                {
-                    string[] values = line.Split('\t');
-                    if (values.Length >= 6)
-                    {
-                        // Extract accelerometer data
-                        float accelX = float.Parse(values[0].Split(' ')[2]);
-                        float accelY = float.Parse(values[1].Split(' ')[1]);
-                        float accelZ = float.Parse(values[2].Split(' ')[1]);
+                // Extract accelerometer data
+                float accelX = float.Parse(values[0].Split('=')[1]);
+                float accelY = float.Parse(values[1].Split('=')[1]);
+                float accelZ = float.Parse(values[2].Split('=')[1]);
 
-                        // Extract gyroscope data
-                        float gyroX = float.Parse(values[3].Split(' ')[2]);
-                        float gyroY = float.Parse(values[4].Split(' ')[1]);
-                        float gyroZ = float.Parse(values[5].Split(' ')[1]);
+                // Extract gyroscope data
+                float gyroX = float.Parse(values[3].Split('=')[1]);
+                float gyroY = float.Parse(values[4].Split('=')[1]);
+                float gyroZ = float.Parse(values[5].Split('=')[1]);
 
-                        //TODO: Make changes to position and rotation logic
-                        //Maybe use the accelerometer for rotation?
+                //TODO: Make changes to position and rotation logic
 
-                        // Update position based on accelerometer data
-                        //targetObject.transform.position += new Vector3(accelX, accelY, accelZ) * Time.deltaTime;
+                Vector3 lastData = new Vector3(accelX, accelY, accelZ);
+                targetObject.transform.rotation = Quaternion.Slerp(targetObject.transform.rotation, Quaternion.Euler(lastData), Time.deltaTime * 2f);
 
-                        // Update rotation based on gyroscope data
-                        //targetObject.transform.rotation *= Quaternion.Euler(gyroX, gyroY, gyroZ);
-                    }
-                }
+                // Update position based on accelerometer data
+                //targetObject.transform.position += new Vector3(accelX, accelY, accelZ) * Time.deltaTime;
+
+                // Update rotation based on gyroscope data
+                //targetObject.transform.rotation *= Quaternion.Euler(gyroX, gyroY, gyroZ);
             }
-            catch (Exception e)
-            {
-                userAlert.displayMessage("Error while parsing data: " + e.Message);
-            }
-        });
+        }
+        catch (Exception e)
+        {
+            UnityMainThreadDispatcher.Instance().Enqueue(() => userAlert.displayMessage("Error while parsing data: " + e.Message));
+        }
     }
 
     private void OnApplicationQuit()

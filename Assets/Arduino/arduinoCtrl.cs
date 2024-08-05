@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 Liz Clark for Adafruit Industries
-//
-// SPDX-License-Identifier: MIT
-
 using System.Collections;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -11,9 +7,9 @@ using UnityEngine.UI;
 public class arduinoCtrl : MonoBehaviour
 {
     // replace with your board's COM port
-    SerialPort stream = new SerialPort("\\\\.\\COM5", 9600);
+    SerialPort stream = new SerialPort("\\\\.\\COM7", 9600);
 
-    public Transform t;
+    public Transform cube;
 
     void Start()
     {
@@ -34,7 +30,7 @@ public class arduinoCtrl : MonoBehaviour
 
         lastData = new Vector3(AccX, AccY, AccZ);
 
-        t.transform.rotation = Quaternion.Slerp(t.transform.rotation, Quaternion.Euler(lastData), Time.deltaTime * 5f);
+        cube.transform.rotation = Quaternion.Slerp(cube.transform.rotation, Quaternion.Euler(lastData), Time.deltaTime * 5f);
 
     }
 }

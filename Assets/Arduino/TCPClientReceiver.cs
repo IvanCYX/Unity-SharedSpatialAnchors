@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TCPClientReceiver : MonoBehaviour
 {
-    public string serverIp = "10.65.16.181"; // Replace with Arduino's IP address
+    public string serverIp = "10.65.2.129"; // Replace with Arduino's IP address
     public int serverPort = 8888; // Arduino server port
     public UserAlert userAlert; // Reference to the UserAlert script
     public GameObject targetObject; // The object to be manipulated
@@ -14,7 +14,6 @@ public class TCPClientReceiver : MonoBehaviour
     private TcpClient client;
     private NetworkStream stream;
     private Thread clientThread;
-    private string currentData = "AccelX=0.00&AccelY=0.00&AccelZ=0.00&GyroX=0.00&GyroY=0.00&GyroZ=0.00";
 
     private void Start()
     {
@@ -70,8 +69,7 @@ public class TCPClientReceiver : MonoBehaviour
                     if (bytesRead > 0)
                     {
                         string dataReceived = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                        currentData = dataReceived; // Update the currentData with the latest received data
-                        UnityMainThreadDispatcher.Instance().Enqueue(() => UpdateDisplay(currentData));
+                        UnityMainThreadDispatcher.Instance().Enqueue(() => UpdateDisplay(dataReceived));
                         UpdateTransform(dataReceived);
                     }
                 }
@@ -87,7 +85,6 @@ public class TCPClientReceiver : MonoBehaviour
 
     private void UpdateDisplay(string data)
     {
-        // Use the same text format, but update only the numbers
         UnityMainThreadDispatcher.Instance().Enqueue(() => userAlert.displayMessage(data));
     }
 
@@ -109,16 +106,8 @@ public class TCPClientReceiver : MonoBehaviour
                 float gyroY = float.Parse(values[4].Split('=')[1]);
                 float gyroZ = float.Parse(values[5].Split('=')[1]);
 
-                //TODO: Make changes to position and rotation logic
-
                 Vector3 lastData = new Vector3(accelX, accelY, accelZ);
                 targetObject.transform.rotation = Quaternion.Slerp(targetObject.transform.rotation, Quaternion.Euler(lastData), Time.deltaTime * 2f);
-
-                // Update position based on accelerometer data
-                //targetObject.transform.position += new Vector3(accelX, accelY, accelZ) * Time.deltaTime;
-
-                // Update rotation based on gyroscope data
-                //targetObject.transform.rotation *= Quaternion.Euler(gyroX, gyroY, gyroZ);
             }
         }
         catch (Exception e)

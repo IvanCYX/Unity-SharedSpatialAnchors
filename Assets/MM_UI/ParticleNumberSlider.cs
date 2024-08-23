@@ -100,8 +100,6 @@ public class ParticleNumberSlider : MonoBehaviour
 
         var main = vectorFieldParticleSystem.main;
         main.maxParticles = Mathf.RoundToInt(Mathf.Lerp(1000f, 18000f, x));
-
-        //Debug.Log("Particle System Max Particles: " + main.maxParticles);
     }
 
     private IEnumerator acquireFingerTip(string fingerTag)

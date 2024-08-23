@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Specialized;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -6,21 +7,30 @@ using UnityEngine;
 
 public class TCPClientReceiver : MonoBehaviour
 {
-    public string serverIp = "10.65.2.129"; // Replace with Arduino's IP address
+    public string serverIp = "10.65.54.224"; // Replace with Arduino's IP address
     public int serverPort = 8888; // Arduino server port
     public UserAlert userAlert; // Reference to the UserAlert script
     public GameObject targetObject; // The object to be manipulated
+    public Vector3 objPosition;
+    public Quaternion objRotation;
 
     private TcpClient client;
     private NetworkStream stream;
     private Thread clientThread;
+    private string currentData = "AccelX=0.00&AccelY=0.00&AccelZ=0.00&GyroX=0.00&GyroY=0.00&GyroZ=0.00";
 
     private void Start()
     {
         UnityMainThreadDispatcher.Instance().Enqueue(() => userAlert.displayMessage("Starting TCPClientReceiver..."));
+        objPosition = targetObject.transform.position;
+        objRotation = targetObject.transform.rotation;
         ConnectToServer();
     }
-
+    void Update()
+    {
+        targetObject.transform.position = objPosition;
+        targetObject.transform.rotation = Quaternion.Slerp(targetObject.transform.rotation, objRotation, Time.deltaTime);
+    }
     private void ConnectToServer()
     {
         try
@@ -35,6 +45,7 @@ public class TCPClientReceiver : MonoBehaviour
 
             // Send initial message to wake up the server
             SendInitialMessage();
+
         }
         catch (Exception e)
         {
@@ -63,13 +74,15 @@ public class TCPClientReceiver : MonoBehaviour
         {
             try
             {
+               
                 if (stream.CanRead)
                 {
                     int bytesRead = stream.Read(buffer, 0, buffer.Length);
                     if (bytesRead > 0)
                     {
                         string dataReceived = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                        UnityMainThreadDispatcher.Instance().Enqueue(() => UpdateDisplay(dataReceived));
+                        currentData = dataReceived; // Update the currentData with the latest received data
+                        UnityMainThreadDispatcher.Instance().Enqueue(() => UpdateDisplay(currentData));
                         UpdateTransform(dataReceived);
                     }
                 }
@@ -79,12 +92,13 @@ public class TCPClientReceiver : MonoBehaviour
                 UnityMainThreadDispatcher.Instance().Enqueue(() => userAlert.displayMessage("Error while reading data: " + e.Message));
                 break;
             }
-            Thread.Sleep(1000); // To avoid busy-waiting, adjust as needed
+            Thread.Sleep(600); // To avoid busy-waiting, adjust as needed
         }
     }
 
     private void UpdateDisplay(string data)
     {
+        // Use the same text format, but update only the numbers
         UnityMainThreadDispatcher.Instance().Enqueue(() => userAlert.displayMessage(data));
     }
 
@@ -107,7 +121,10 @@ public class TCPClientReceiver : MonoBehaviour
                 float gyroZ = float.Parse(values[5].Split('=')[1]);
 
                 Vector3 lastData = new Vector3(accelX, accelY, accelZ);
-                targetObject.transform.rotation = Quaternion.Slerp(targetObject.transform.rotation, Quaternion.Euler(lastData), Time.deltaTime * 2f);
+                UnityEngine.Debug.Log(lastData.ToString());
+
+                // Update rotation based on gyroscope data
+                objRotation = Quaternion.Euler(gyroX*180f/3.1415f, gyroY * 180f / 3.1415f, gyroZ * 180f / 3.1415f);
             }
         }
         catch (Exception e)
